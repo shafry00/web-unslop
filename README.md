@@ -40,11 +40,12 @@ python3 scripts/unslop_lint.py src/ --strict
 Contoh keluaran:
 
 ```
+bad.html:2: FAIL reflex-font: font refleks `inter` di posisi pertama. Pilih lewat prosedur di references/typography.md.
 bad.html:3: FAIL gradient-text: teks bergradien (background-clip:text). Pakai satu warna solid, tekankan lewat bobot atau ukuran.
 bad.html:4: FAIL side-stripe: garis aksen tebal di sisi kiri/kanan kartu. Pakai border penuh, tint latar, atau angka/ikon di depan.
-bad.html:14: FAIL hype-copy: frasa kosong `seamless`. Ganti klaim spesifik (angka, mekanisme, hasil).
+bad.html:12: FAIL hype-copy: frasa kosong `seamless`. Ganti klaim spesifik (angka, mekanisme, hasil).
 
-3 FAIL, 0 WARN
+37 temuan pada sampel buruk dari tests/test_lint.py
 ```
 
 Daftar rule dan batasannya ada di `references/lint-rules.md`.
