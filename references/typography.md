@@ -11,7 +11,7 @@ Model punya refleks: begitu diminta "elegan" ia mengambil serif, begitu diminta 
 5. **Uji di konten asli.** Tempel judul, angka Rupiah, nama dengan diakritik, dan satu paragraf. Cek angka tabular, karakter `0` dan `O`, `1` dan `l`, dan tanda baca bahasa Indonesia.
 6. **Tulis alasannya** dalam satu kalimat di komentar bukti. Kalimat itu harus menyebut subjek.
 
-Contoh penalaran (bukan daftar pilihan): bengkel jam dengan nota cetak lama menuntut serif ber-sentuhan tinta cetak untuk judul dan sans netral dengan angka tabular untuk tarif. Contoh di `examples/bengkel-jam` memakai Petrona dan Karla untuk alasan itu. Jangan menyalinnya untuk subjek lain.
+Contoh penalaran (bukan daftar pilihan): bengkel jam dengan nota cetak lama menuntut serif ber-sentuhan tinta cetak untuk judul dan sans netral dengan angka tabular untuk tarif. Contoh di `examples/lolos-linter/bengkel-jam` memakai Petrona dan Karla untuk alasan itu. Teknik memilihnya boleh ditiru, pilihannya jangan, dan halaman itu sendiri bukan teladan (lihat `examples/lolos-linter/README.md`).
 
 ## Daftar tolak
 

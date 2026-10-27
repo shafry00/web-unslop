@@ -36,6 +36,19 @@ button { outline: none; animation: pulse 2s infinite; }
 <img src="hero.png"><button>Get Started</button><a href="#">Click here</a>
 </body></html>"""
 
+BAD_SKELETON = """<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>t</title><meta name="description" content="d"><style>
+section { padding-block: 5rem; }
+.cta { box-shadow: 4px 4px 0 #222; }
+:focus-visible { outline: 2px solid; }
+</style></head><body>
+<h1>Cap jadi, selagi Anda <em>menunggu.</em></h1>
+<section id="a"><h2>Harga tertulis, selesai sebelum pulang</h2><table><tr><td>x</td></tr></table></section>
+<section id="b"><h2>Tiga langkah, dan bayar di akhir</h2><ol><li>a</li><li>b</li><li>c</li></ol></section>
+<section id="c"><h2>Tanya jawab</h2><details>a</details><details>b</details><details>c</details></section>
+<section id="d"><h2>Harga: [ISI: tarif asli]</h2><a class="cta" href="#">Pesan</a></section>
+</body></html>"""
+
 BAD_TAILWIND = """<h1 class="bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">x</h1>
 <div class="border-l-4 transition-all">y</div>"""
 
@@ -69,7 +82,7 @@ def run_hook(payload, env=None):
 def test_hook():
     code, err = run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/page.html", "content": BAD_HTML}})
     assert code == 2 and "hype-copy" in err, (code, err)
-    good = (ROOT / "examples" / "bengkel-jam" / "index.html").read_text(encoding="utf-8")
+    good = (ROOT / "examples" / "lolos-linter" / "bengkel-jam" / "index.html").read_text(encoding="utf-8")
     assert run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/page.html", "content": good}})[0] == 0
     assert run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/notes.md", "content": BAD_HTML}})[0] == 0
     assert run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/vendor/a.html", "content": BAD_HTML}})[0] == 0
@@ -100,6 +113,11 @@ def main():
         v = rules(p / "vars.html")
         assert {"reflex-font-2", "cream-terracotta"} <= v, f"vars: {v}"
 
+        (p / "skel.html").write_text(BAD_SKELETON, encoding="utf-8")
+        sk = rules(p / "skel.html")
+        need = {"heading-cadence", "accent-last-word", "hard-shadow", "uniform-section-padding", "skeleton-landing", "placeholder-left"}
+        assert need <= sk, f"skeleton: {sorted(need - sk)}"
+
         # suppression token
         (p / "ok.html").write_text(BAD_TAILWIND.replace('class="border-l-4', 'class="border-l-4 unslop-ok"'), encoding="utf-8")
         assert "side-stripe" not in rules(p / "ok.html")
@@ -112,10 +130,12 @@ def main():
         (p / "c.md").write_text("Satu kalimat \u2014 dua klausa.\n", encoding="utf-8")
         assert "em-dash" in rules(p / "c.md")
 
-    good = ROOT / "examples" / "bengkel-jam" / "index.html"
-    assert good.exists(), "jalankan examples/bengkel-jam/build.py dulu"
-    g = lint.check_file(str(good))
-    assert not g, "contoh bagus harus bersih: " + "; ".join(map(str, g))
+    for name in ("bengkel-jam", "stempel-rudi"):
+        ex = ROOT / "examples" / "lolos-linter" / name / "index.html"
+        assert ex.exists(), f"jalankan examples/lolos-linter/{name}/build.py dulu"
+        fails = [f for f in lint.check_file(str(ex)) if f.level == lint.FAIL]
+        assert not fails, f"{name} tidak boleh FAIL: " + "; ".join(map(str, fails))
+        assert "skeleton-landing" in rules(ex), f"{name} harus ditandai kerangka bawaan"
 
     own = []
     for f in lint.iter_files([str(ROOT)]):

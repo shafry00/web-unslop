@@ -287,6 +287,17 @@ def check_text(path, raw):
             if re.search(rf"\b{w},\s+{w},?\s+(?:dan|and|&|atau|or)\s+{w}\b", t, flags=re.I) or re.fullmatch(rf"{w},\s*{w},\s*{w}[.!]?", t):
                 add(WARN, "rule-of-three", m.start(), f"judul berpola tiga kata sifat: \"{t[:60]}\". Pilih satu klaim yang bisa dibuktikan.")
 
+        if is_code:
+            if re.search(r"\[ISI:", visible):
+                add(WARN, "placeholder-left", find_line(raw, "[ISI:"), "placeholder [ISI: ...] belum diisi. Isi dengan fakta nyata dari pemilik sebelum rilis.", by_index=False)
+            heads = [strip_markup(m.group(2)).strip() for m in re.finditer(r"<h([1-3])\b[^>]*>(.*?)</h\1>", raw, flags=re.S | re.I)]
+            two = [h for h in heads if re.match(r"^[^,]{3,45},\s+\S", h)]
+            if len(heads) >= 3 and len(two) >= 2 and len(two) * 2 >= len(heads):
+                add(WARN, "heading-cadence", find_line(raw, two[0][:20]), f"{len(two)} dari {len(heads)} judul berpola 'X, lalu Y'. Irama seragam terbaca otomatis. Variasikan panjang dan bentuk judul.", by_index=False)
+            for m in re.finditer(r"<h([12])\b[^>]*>(.*?)</h\1>", raw, flags=re.S | re.I):
+                if re.search(r"\S[^<]*<(em|span|mark|i|b|strong)\b[^>]*>[^<]{1,40}</\1>\s*[.!?]?\s*$", m.group(2).strip()):
+                    add(WARN, "accent-last-word", m.start(), "kata terakhir judul diberi warna atau gaya aksen. Tell yang sangat umum. Biarkan judul satu warna.")
+
     if not is_code:
         return _suppress(F, raw)
 
@@ -355,6 +366,11 @@ def check_text(path, raw):
     if len(re.findall(r"backdrop-filter\s*:|backdrop-blur", raw)) >= 3:
         add(WARN, "glassmorphism", 0, "backdrop-filter dipakai 3x atau lebih. Glass untuk dekorasi, bukan fungsi.")
 
+    for m in re.finditer(r"box-shadow\s*:\s*(?!inset)(-?\d+(?:\.\d+)?)px\s+(-?\d+(?:\.\d+)?)px\s+0(?:px)?\s+[^;,}]+[;}]", raw, flags=re.I):
+        if float(m.group(1)) or float(m.group(2)):
+            add(WARN, "hard-shadow", m.start(), "bayangan keras tanpa blur (gaya neo-brutalist) sering dipakai untuk tombol. Pastikan itu keputusan merek, bukan kebiasaan.")
+            break
+
     # typography
     fams = []
     for m in re.finditer(r"font-family\s*:\s*([^;}{]+)", raw, flags=re.I):
@@ -413,6 +429,20 @@ def check_text(path, raw):
             add(WARN, "focus-style", 0, "elemen interaktif tanpa gaya :focus-visible.")
         if re.search(r"outline\s*:\s*(?:none|0)\b", raw, flags=re.I) and not re.search(r":focus-visible", raw):
             add(FAIL, "outline-none", 0, "outline dimatikan tanpa pengganti :focus-visible.")
+
+        # one padding for every section, and the stock landing skeleton
+        secs = re.findall(r"<section\b([^>]*)>", raw, flags=re.I)
+        if len(secs) >= 4:
+            ids = [i for sec in secs for i in re.findall(r"""\bid\s*=\s*["']([\w-]+)""", sec)]
+            pad = [(sel.strip().splitlines()[-1].strip() if sel.strip() else "", body)
+                   for sel, body in re.findall(r"([^{}]+)\{([^{}]*)\}", raw) if re.search(r"padding(?:-block|-top|-bottom)?\s*:", body)]
+            generic = [sel for sel, _ in pad if re.fullmatch(r"(?:main\s*>\s*)?section|\.section", sel)]
+            over = [sel for sel, _ in pad if sel not in generic and ("section" in sel or any("#" + i in sel for i in ids))]
+            if generic and len(over) < 2:
+                add(WARN, "uniform-section-padding", 0, "semua section memakai padding yang sama. Ritme spasi yang sama terbaca otomatis. Variasikan, misalnya rapat, sedang, lega.")
+        n_li = max((len(re.findall(r"<li\b", m.group(0), flags=re.I)) for m in re.finditer(r"<ol\b.*?</ol>", raw, flags=re.S | re.I)), default=0)
+        if len(re.findall(r"<details\b", raw, flags=re.I)) >= 3 and (re.search(r"<table\b", raw, flags=re.I) or n_li >= 3) and re.search(r"<h1\b", raw, flags=re.I):
+            add(WARN, "skeleton-landing", 0, "kerangka hero + tabel atau langkah + FAQ accordion. Itu kerangka bawaan semua landing page AI. Pastikan struktur berasal dari isi, bukan dari kebiasaan (references/layout.md, tes kerangka).")
 
         # identical feature cards
         tree = Tree()

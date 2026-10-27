@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cap dan Stempel Pak Rudi, Pasar Baru</title>
+<meta name="description" content="Contoh uji skill web-unslop. Toko stempel fiktif: stempel flash jadi 60 menit, harga tertulis, revisi pertama gratis bila salah ketik di pihak kami.">
+<!-- juni-design-pro-max
+component: tidak ada referensi pustaka komponen. Uji skill, dibangun manual dari tabel harga dan deretan cap berukuran berbeda
+wireframe: hero merah penuh + cap raksasa menimpa batas section, tabel harga, lembar uji cap tiga bentuk, daftar bawaan, FAQ, penutup
+motion: satu momen, cap "menghantam" kertas saat load (scale + rotate dengan overshoot). Tanpa library, tanpa riset baru
+layout: headline 8 kolom, cap 460px keluar bingkai hero, tabel bergaris, lembar uji dengan ukuran tidak seragam
+font: Alfa Slab One (slab berat, huruf papan toko dan cap) + Karla (isi, angka rapi untuk tabel harga)
+copy: register institusional ringkas. Sapuan Specificity dan Prove It: tiap klaim berisi durasi, harga, atau syarat
+-->
+<!-- web-unslop
+component: tidak ada referensi pustaka komponen. Uji skill, dibangun manual
+brief   : pembeli butuh cap cepat untuk urusan kantor atau usaha dan takut salah cetak. Tindakan: kirim tulisan atau logo cap. Benda fisik: bantalan tinta dan jejak cap di kertas
+dial    : VARIANCE 7 / MOTION 3 / DENSITY 4
+wireframe: lihat komentar sebelumnya
+layout  : pusat perhatian satu cap raksasa miring yang menimpa batas hero, sisanya tenang
+font    : Alfa Slab One untuk judul (huruf cap dan papan toko) + Karla untuk isi
+warna   : merah tinta cap dominan di hero, tinta gelap kemerahan untuk jejak, kertas abu-hijau dingin sebagai latar, bukan krem
+gerak   : cap menghantam kertas sekali, reduced motion langsung menampilkan hasil
+copy    : register institusional ringkas, tarif dan durasi spesifik, tanpa testimoni karangan
+-->
+<style>
+  @font-face {
+    font-family: "Alfa Slab One";
+    font-weight: 400;
+    font-display: swap;
+    src: url("data:font/woff2;base64,__ALFA__") format("woff2");
+  }
+  @font-face {
+    font-family: "Karla";
+    font-weight: 400;
+    font-display: swap;
+    src: url("data:font/ttf;base64,__KARLA__") format("truetype");
+  }
+
+  :root {
+    color-scheme: light dark;
+    --paper: #ecedea;
+    --ink: #1d1718;
+    --muted: #55494b;
+    --red: #a92a2d;
+    --on-red: #f3efea;
+    --impression: #3a1113;
+    --rule: #c3c4be;
+    --link: #8c1f22;
+    --ease: cubic-bezier(0.2, 0.9, 0.3, 1.3);
+    --step--1: clamp(0.82rem, 0.78rem + 0.15vw, 0.92rem);
+    --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    --step-2: clamp(1.45rem, 1.2rem + 1.2vw, 2.1rem);
+    --step-5: clamp(2.9rem, 1.2rem + 8.2vw, 8rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #181415; --ink: #eee9e6; --muted: #b3a8a9; --red: #8c2226;
+      --rule: #372d2f; --link: #f0a1a3;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #181415; --ink: #eee9e6; --muted: #b3a8a9; --red: #8c2226;
+    --rule: #372d2f; --link: #f0a1a3;
+  }
+  /* multiply menghilangkan tinta gelap di atas latar gelap, jadi di mode gelap cap dicetak terang */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .stamp { mix-blend-mode: normal; --stamp: #f3c9ca; }
+  }
+  :root[data-theme="dark"] .stamp { mix-blend-mode: normal; --stamp: #f3c9ca; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 var(--step-0) / 1.6 "Karla", sans-serif; }
+  .wrap { width: min(1180px, 100% - 2rem); margin-inline: auto; }
+  h1, h2, .big { font-family: "Alfa Slab One", serif; font-weight: 400; letter-spacing: 0.005em; }
+  p { max-width: 62ch; margin: 0 0 1em; }
+  a { color: var(--link); text-underline-offset: 0.2em; }
+  a:focus-visible, summary:focus-visible, .cta:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+
+  /* hero */
+  .hero { background: var(--red); color: var(--on-red); position: relative; padding-block: clamp(2.5rem, 7vw, 6rem) clamp(5rem, 12vw, 10rem); }
+  .hero .wrap { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.25rem; }
+  .hero h1 { grid-column: 1 / span 8; margin: 0; font-size: var(--step-5); line-height: 0.98; }
+  .hero .lede { grid-column: 1 / span 6; font-size: var(--step-2); line-height: 1.3; margin: 1.5rem 0 0; max-width: 28ch; }
+  .cta {
+    grid-column: 1 / span 6; justify-self: start; margin-top: 1rem;
+    display: inline-block; padding: 0.9rem 1.4rem; background: var(--on-red); color: #3a1113;
+    text-decoration: none; border-radius: 2px; box-shadow: 4px 4px 0 var(--impression);
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  .cta:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--impression); }
+  .cta:focus-visible { outline-color: var(--on-red); }
+
+  .stamp {
+    position: absolute; right: max(1rem, 4vw); bottom: -130px; width: clamp(240px, 36vw, 460px);
+    mix-blend-mode: multiply; pointer-events: none; z-index: 2;
+    --stamp: var(--impression);
+    transform: rotate(-8deg);
+    animation: thunk 0.7s var(--ease) 0.35s both;
+  }
+  .stamp text { font-family: "Alfa Slab One", serif; fill: var(--stamp); }
+  .stamp .ring { fill: none; stroke: var(--stamp); }
+  @keyframes thunk {
+    from { opacity: 0; transform: rotate(-16deg) scale(1.4); }
+    to   { opacity: 0.92; transform: rotate(-8deg) scale(1); }
+  }
+
+  /* sections */
+  section { padding-block: clamp(2.5rem, 6vw, 5rem); }
+  h2 { font-size: var(--step-2); line-height: 1.1; margin: 0 0 1.5rem; max-width: 20ch; }
+  #harga { padding-top: clamp(6rem, 14vw, 11rem); }
+
+  /* tabel harga */
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font-weight: 400; color: var(--muted); font-size: var(--step--1); padding: 0 0 0.5rem; border-bottom: 2px solid var(--ink); }
+  td { padding: 1rem 1rem 1rem 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+  td:last-child, th:last-child { text-align: right; padding-right: 0; }
+  td:nth-child(n+2) { white-space: nowrap; }
+  td small { display: block; color: var(--muted); font-size: var(--step--1); }
+  tbody tr { background: linear-gradient(var(--red), var(--red)) no-repeat 0 100% / 0 3px; transition: background-size 0.4s var(--ease); }
+  tbody tr:hover { background-size: 100% 3px; }
+  .note { color: var(--muted); font-size: var(--step--1); margin-top: 1rem; }
+
+  /* lembar uji cap */
+  .sheet { display: grid; grid-template-columns: 1.3fr 1fr 0.7fr; gap: clamp(1rem, 4vw, 3rem); align-items: end; }
+  .sheet figure { margin: 0; }
+  .sheet svg { width: 100%; height: auto; display: block; color: var(--red); }
+  .sheet figure:nth-child(2) { transform: rotate(2.5deg); }
+  .sheet figure:nth-child(3) { transform: rotate(-4deg); }
+  .sheet figcaption { font-size: var(--step--1); color: var(--muted); margin-top: 0.6rem; max-width: 28ch; }
+
+  /* bawaan */
+  dl { margin: 0; display: grid; grid-template-columns: minmax(8rem, 14rem) 1fr; gap: 0; }
+  dt, dd { padding: 1rem 0; border-top: 1px solid var(--rule); margin: 0; }
+  dt { font-family: "Alfa Slab One", serif; font-size: 1.15rem; }
+  dd { max-width: 56ch; }
+
+  /* faq */
+  details { border-bottom: 1px solid var(--rule); padding-block: 1rem; }
+  summary { cursor: pointer; font-size: 1.1rem; }
+  details p { margin: 0.75rem 0 0; color: var(--muted); }
+
+  footer { border-top: 2px solid var(--ink); padding-block: 1.5rem 3rem; color: var(--muted); font-size: var(--step--1); }
+
+  @media (max-width: 720px) {
+    .hero .wrap > * { grid-column: 1 / -1 !important; }
+    .stamp { width: 220px; right: -50px; bottom: -135px; }
+    .sheet { grid-template-columns: 1fr 1fr; }
+    .sheet figure:first-child { grid-column: 1 / -1; }
+    dl { grid-template-columns: 1fr; }
+    dt { border-bottom: 0; padding-bottom: 0; }
+    dd { border-top: 0; padding-top: 0.25rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stamp { animation: none; opacity: 0.92; }
+    .cta, tbody tr { transition: none; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <h1>Cap jadi, selagi Anda menunggu.</h1>
+    <p class="lede">Stempel flash siap dalam 60 menit. Desainnya Anda setujui lewat foto sebelum dicetak.</p>
+    <a class="cta" href="#kontak">Kirim tulisan atau logo cap ke WhatsApp</a>
+  </div>
+  <svg class="stamp" viewBox="0 0 400 400" role="img" aria-label="Contoh jejak cap bulat bertuliskan Pak Rudi, Cap dan Stempel, Pasar Baru">
+    <defs>
+      <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="4" result="warp"/>
+        <feDisplacementMap in="SourceGraphic" in2="warp" scale="5" result="bent"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="1" seed="9" result="grain"/>
+        <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -10 7.6" result="holes"/>
+        <feComposite in="bent" in2="holes" operator="in"/>
+      </filter>
+      <path id="arc" d="M 200,200 m -128,0 a 128,128 0 1,1 256,0 a 128,128 0 1,1 -256,0"/>
+    </defs>
+    <g filter="url(#rough)">
+      <circle class="ring" cx="200" cy="200" r="188" stroke-width="10"/>
+      <circle class="ring" cx="200" cy="200" r="94" stroke-width="4"/>
+      <text font-size="31" letter-spacing="5"><textPath href="#arc" startOffset="2%">CAP &amp; STEMPEL · PASAR BARU · LORONG 2 ·</textPath></text>
+      <text x="200" y="196" text-anchor="middle" font-size="44">PAK</text>
+      <text x="200" y="244" text-anchor="middle" font-size="44">RUDI</text>
+    </g>
+  </svg>
+</header>
+
+<main>
+  <section id="harga">
+    <div class="wrap">
+      <h2>Harga tertulis, selesai sebelum Anda pulang</h2>
+      <table>
+        <thead><tr><th scope="col">Jenis</th><th scope="col">Jadi dalam</th><th scope="col">Mulai dari</th></tr></thead>
+        <tbody>
+          <tr><td>Stempel flash otomatis<small>bantalan tinta di dalam, ukuran sampai 5 x 3 cm</small></td><td>60 menit</td><td>Rp 75.000</td></tr>
+          <tr><td>Stempel kayu dan karet<small>perlu bantalan tinta terpisah</small></td><td>3 jam</td><td>Rp 45.000</td></tr>
+          <tr><td>Cap perusahaan bulat<small>garis tengah 4 cm, dua lingkaran</small></td><td>1 hari</td><td>Rp 120.000</td></tr>
+          <tr><td>Stempel tanda tangan<small>dari goresan asli Anda</small></td><td>2 hari</td><td>Rp 95.000</td></tr>
+          <tr><td>Isi ulang tinta</td><td>5 menit</td><td>Rp 15.000</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Harga untuk huruf dan logo yang sudah rapi. Logo yang harus digambar ulang ditambah Rp 30.000 sampai Rp 60.000, dikabari sebelum dikerjakan.</p>
+    </div>
+  </section>
+
+  <section id="uji">
+    <div class="wrap">
+      <h2>Lembar uji, tiga bentuk yang paling sering dipesan</h2>
+      <div class="sheet">
+        <figure>
+          <svg viewBox="0 0 300 130" role="img" aria-label="Jejak cap persegi panjang bertuliskan Lunas dan tanggal">
+            <g filter="url(#rough)"><rect x="6" y="6" width="288" height="118" rx="6" fill="none" stroke="currentColor" stroke-width="7"/><text x="150" y="82" text-anchor="middle" font-family="Alfa Slab One" font-size="64" fill="currentColor">LUNAS</text></g>
+          </svg>
+          <figcaption>Cap tanggal dan status, paling cepat laku untuk toko dan kantor kecil.</figcaption>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 240 240" role="img" aria-label="Jejak cap bulat bertuliskan CV Maju Jaya">
+            <g filter="url(#rough)"><circle cx="120" cy="120" r="112" fill="none" stroke="currentColor" stroke-width="7"/><circle cx="120" cy="120" r="84" fill="none" stroke="currentColor" stroke-width="3"/><text x="120" y="118" text-anchor="middle" font-family="Alfa Slab One" font-size="26" fill="currentColor">CV MAJU</text><text x="120" y="148" text-anchor="middle" font-family="Alfa Slab One" font-size="26" fill="currentColor">JAYA</text></g>
+          </svg>
+          <figcaption>Cap perusahaan untuk surat dan faktur.</figcaption>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 200 100" role="img" aria-label="Jejak cap kecil bertuliskan Drs. Hasan">
+            <g filter="url(#rough)"><rect x="4" y="4" width="192" height="92" fill="none" stroke="currentColor" stroke-width="4"/><text x="100" y="40" text-anchor="middle" font-family="Alfa Slab One" font-size="20" fill="currentColor">Drs.</text><text x="100" y="76" text-anchor="middle" font-family="Alfa Slab One" font-size="30" fill="currentColor">HASAN</text></g>
+          </svg>
+          <figcaption>Cap nama dan gelar.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="bawa">
+    <div class="wrap">
+      <h2>Yang perlu dibawa atau dikirim</h2>
+      <dl>
+        <dt>Tulisan</dt><dd>Ketik atau foto contoh. Ejaan nama dan gelar dicek ulang di foto persetujuan sebelum dicetak.</dd>
+        <dt>Logo</dt><dd>Berkas PNG atau PDF paling nyaman. Foto logo di kertas juga bisa, hanya biaya gambar ulang berlaku.</dd>
+        <dt>Ukuran</dt><dd>Sebut ukuran cap dalam sentimeter. Kalau belum tahu, bawa surat yang akan distempel dan kami ukur di tempat.</dd>
+        <dt>Pembayaran</dt><dd>Lunas saat ambil. Pesanan di atas Rp 200.000 membayar separuh di depan.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="tanya">
+    <div class="wrap">
+      <h2>Yang biasanya ditanyakan</h2>
+      <details><summary>Cap perusahaan sah untuk urusan bank dan pajak?</summary><p>Bentuk dan isi cap ditentukan instansi yang meminta, bukan oleh pembuat cap. Bawa contoh atau syarat tertulis dari instansinya, dan kami buat sesuai itu.</p></details>
+      <details><summary>Bagaimana kalau salah ketik?</summary><p>Salah di pihak kami dicetak ulang tanpa biaya, satu kali. Salah dari tulisan yang Anda setujui lewat foto dihitung pesanan baru dengan potongan Rp 15.000.</p></details>
+      <details><summary>Tintanya awet berapa lama?</summary><p>Bantalan stempel flash biasanya cukup untuk 3.000 sampai 5.000 kali cap, tergantung kertas. Isi ulang Rp 15.000 dan selesai di tempat.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer id="kontak">
+  <div class="wrap">
+    <p>Cap dan Stempel Pak Rudi adalah usaha fiktif. Halaman ini hasil uji skill web-unslop. Font: Alfa Slab One dan Karla, lisensi SIL OFL 1.1.</p>
+  </div>
+</footer>
+</body>
+</html>

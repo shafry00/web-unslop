@@ -48,7 +48,13 @@ Frasa yang dilarang ditulis di dalam backtick supaya linter tidak menandai dokum
 | Bayangan jatuh generik pada persegi membulat | Aman dan tidak berkesan | Bentuk dan elevasi yang konsisten dengan sistem | - |
 | Modal untuk semua hal | Malas mencari alternatif | Inline, halaman sendiri, atau popover | - |
 | Pil "Baru" atau "Beta" di atas judul hero | Lencana pengisi | Hapus | - |
-| Padding section sama di semua bagian | Ritme otomatis | Ritme yang bervariasi | - |
+| Padding section sama di semua bagian | Ritme otomatis | Ritme yang bervariasi | `uniform-section-padding` |
+| Kerangka hero + tabel atau langkah + FAQ + penutup | Urutan bawaan, tidak berasal dari isi | Tes kerangka di references/layout.md | `skeleton-landing` |
+| Tombol berbayangan keras tanpa blur | Gaya neo-brutalist yang menyebar lewat template | Tombol datar atau bayangan yang punya sumber cahaya | `hard-shadow` |
+| Angka 1, 2, 3 raksasa berwarna aksen dan digeser | Langkah bernomor versi dekoratif | Nomor kecil sejajar teks, atau urutan yang tampil dari isi | - |
+| Ornamen SVG besar sebagai gimmick (jam, cap, kompas) di pojok hero | Dekorasi yang menggantikan isi | Foto atau gambar nyata dari subjek | - |
+| Hero satu warna penuh, teks krem, satu CTA terang | Kombinasi hero paling umum | Komposisi yang berasal dari subjek | - |
+| Keterangan kecil abu-abu di bawah semua baris dan gambar | Pengisi hierarki | Keterangan hanya bila perlu | - |
 | Semua elemen berukuran sedang | Tidak ada pusat perhatian | Satu elemen diperbesar jadi pusat | - |
 
 ## Gerak
@@ -81,6 +87,9 @@ Frasa di bawah ditulis di dalam backtick karena dokumen ini sendiri diperiksa li
 | Teks placeholder tertinggal | `Lorem ipsum`, `John Doe`, `Your Company` | Isi nyata | `hype-copy` |
 | Testimoni karangan dengan nama generik | foto stok + kutipan sempurna | Kutipan asli dengan izin, atau tidak ada bagian testimoni | - |
 | Kalimat berpola simetris berulang | tiga kalimat pendek dengan ritme sama | Panjang kalimat bervariasi | - |
+| Semua judul berpola "X, lalu Y" | Irama seragam | Judul bervariasi (references/copy.md) | `heading-cadence` |
+| Kata terakhir judul diwarnai | `<h1>Jam mati belum tentu <em>rusak.</em></h1>` | Satu warna | `accent-last-word` |
+| Angka, harga, dan syarat karangan yang terdengar spesifik | Spesifik palsu | Fakta dari pemilik, atau `[ISI: ...]` | `placeholder-left` bila belum diisi |
 
 ## Teknis dan aksesibilitas
 

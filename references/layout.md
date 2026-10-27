@@ -5,10 +5,33 @@
 Template memulai dari wadah: hero tengah, tiga kartu, testimoni, harga, footer. Komposisi yang dirancang memulai dari pertanyaan: apa yang paling penting dilihat pembaca dalam dua detik, dan bentuk apa yang menyampaikannya?
 
 - Tarif: tabel dengan garis tipis, karena orang membandingkan angka.
-- Proses: daftar bernomor yang digeser, karena urutan adalah isinya.
+- Proses: urutan yang terbaca dari isinya, misalnya daftar bernomor kecil sejajar teks. Angka raksasa berwarna yang digeser berselang-seling adalah tell.
 - Tanya jawab: `<details>`, karena pembaca memindai pertanyaan.
 - Portofolio: gambar besar dengan keterangan kecil di pojok, karena gambar adalah buktinya.
 - Alamat dan jam: blok kecil yang bergaris atas, karena itu informasi referensi.
+
+## Tes kerangka
+
+Kerangka bawaan semua landing page AI:
+
+1. hero: judul besar, satu kalimat, satu CTA
+2. tiga fitur, atau tabel harga, atau tiga langkah bernomor
+3. testimoni atau baris logo
+4. FAQ accordion
+5. penutup dengan CTA kedua
+
+Tiap bagian masuk akal sendirian. Masalahnya urutan dan kehadirannya otomatis. Kalau teks dua halaman dari subjek berbeda ditukar dan strukturnya tetap cocok, halaman itu belum dirancang.
+
+Cara menjalankan:
+
+1. Tulis urutan section halamanmu dalam satu baris.
+2. Untuk tiap section, tulis pertanyaan pembaca yang dijawabnya. Tidak ada pertanyaan, hapus.
+3. Urutkan menurut pertanyaan yang muncul di kepala pembaca, bukan menurut kebiasaan. Orang yang ragu soal harga butuh harga di atas. Orang yang takut salah pesan butuh contoh hasil sebelum apa pun.
+4. Tanyakan apa bentuk isinya, bukan wadah apa yang tersedia. Prosedur dua langkah tidak perlu tiga kartu. Satu foto yang bagus tidak perlu dikelilingi tiga baris fitur.
+5. Variasikan bentuk antar section: satu kolom sempit, satu lebar penuh, satu bergaya dokumen, satu hanya gambar. Dua section berturut-turut jangan berbentuk sama.
+6. Kerangka yang sama dengan halaman sebelumnya yang kamu buat (di proyek lain atau di sesi ini) berarti gagal. Ulangi.
+
+Linter menandai kerangka `hero + tabel atau langkah + FAQ accordion` sebagai WARN `skeleton-landing`. Itu heuristik, bukan vonis. Tanda lolos yang sebenarnya adalah jawaban tertulis untuk langkah 2.
 
 ## Satu pusat perhatian
 
@@ -30,7 +53,7 @@ Pilih satu. Dua pusat saling meniadakan.
 
 ## Ritme spasi
 
-Padding atas-bawah yang sama di semua section terbaca sebagai output otomatis.
+Padding atas-bawah yang sama di semua section terbaca sebagai output otomatis. Linter menandainya (`uniform-section-padding`) pada halaman dengan empat section atau lebih yang hanya punya satu aturan padding.
 
 - Beri tiga atau empat nilai spasi dan gunakan secara berbeda: rapat di dalam kelompok, sedang antar kelompok, lega antar section, sangat lega sebelum bagian penutup.
 - Section pertama (hero) lebih padat atau lebih lega dari sisanya, tapi dengan sengaja.
@@ -55,7 +78,7 @@ Kalau tetap memakai kartu: jangan kartu di dalam kartu, jangan ikon seragam di a
 
 - Satu kalimat klaim yang spesifik, satu kalimat pendukung, satu CTA.
 - Hindari lencana "Baru" di atas judul, dua tombol sama berat, dan baris logo palsu.
-- Ornamen hero harus berasal dari subjek. Contoh: muka jam dari SVG untuk bengkel jam.
+- Ornamen SVG besar di pojok hero (muka jam, cap, kompas) adalah tell, karena menggantikan isi. Pakai foto, gambar, atau data nyata dari subjek. Kalau belum ada, tulis `[ISI: foto bengkel]` daripada menggambar pengganti.
 
 ## Responsif
 

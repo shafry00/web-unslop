@@ -36,6 +36,12 @@ Ekstensi yang diperiksa penuh: `.html .htm .css .jsx .tsx .js .ts .vue .svelte .
 | `default-easing` | WARN | Ada gerak tapi tidak ada `cubic-bezier`, `linear()`, atau kurva bernama |
 | `reduced-motion` | FAIL | Ada animasi tanpa `prefers-reduced-motion` |
 | `center-everything` | WARN | Enam kali `text-align: center` atau `text-center` |
+| `heading-cadence` | WARN | Separuh judul atau lebih berpola "X, lalu Y" (minimal dua dari tiga judul) |
+| `accent-last-word` | WARN | Kata terakhir h1 atau h2 dibungkus em, span, mark, i, b, atau strong |
+| `placeholder-left` | WARN | `[ISI: ...]` masih ada di teks |
+| `hard-shadow` | WARN | `box-shadow` offset bukan nol dengan blur 0 |
+| `uniform-section-padding` | WARN | Empat section atau lebih, hanya satu aturan padding generik, kurang dari dua override |
+| `skeleton-landing` | WARN | h1, FAQ accordion tiga atau lebih, dan tabel atau daftar bernomor tiga item |
 | `identical-cards` | FAIL | Tiga saudara identik berisi ikon, judul, dan paragraf |
 | `identical-cards-plain` | WARN | Tiga saudara identik berisi judul dan paragraf |
 | `html-lang` | FAIL | `<html>` tanpa `lang` |
@@ -66,4 +72,4 @@ Batasan hook: hanya berjalan bila hook aktif. Mematikan semua hook, atau mode iz
 
 ## Menambah rule
 
-Tambahkan pengecekan di `check_file()`, satu entri di tabel ini, dan satu kasus di `tests/test_lint.py` yang gagal bila rule dihapus. Rule baru tidak boleh menggagalkan `examples/bengkel-jam/index.html` tanpa alasan.
+Tambahkan pengecekan di `check_file()`, satu entri di tabel ini, dan satu kasus di `tests/test_lint.py` yang gagal bila rule dihapus. Rule baru tidak boleh menggagalkan `examples/lolos-linter/bengkel-jam/index.html` tanpa alasan.

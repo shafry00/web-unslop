@@ -10,7 +10,7 @@ Palet yang aman dan palet yang khas dibedakan oleh sumbernya. Sumber yang benar 
 4. **Netral** diturunkan dari hue dominan: kertas bernuansa hijau-abu, tinta hijau-hitam. Bukan abu-abu murni.
 5. Cek hasilnya terhadap daftar tell di bawah. Kalau mendarat di salah satunya, kembali ke langkah 1 dan cari detail yang lebih spesifik.
 
-Contoh penalaran dari `examples/bengkel-jam`: dominan hijau alas kerja `#26382f`, aksen kuningan `#c9a24d`, kertas `#e8ebe2`, tinta `#18201b`. Semua netral membawa sedikit hijau.
+Contoh cara menurunkan warna (hanya teknik, hasil halamannya sendiri masih terbaca AI, lihat `examples/lolos-linter/README.md`): bengkel jam, dominan hijau alas kerja `#26382f`, aksen kuningan `#c9a24d`, kertas `#e8ebe2`, tinta `#18201b`. Semua netral membawa sedikit hijau.
 
 Bila subjek tidak punya detail fisik (alat internal, dashboard), turunkan dari merek yang sudah ada. Kalau merek pun belum ada, tanyakan satu hal ke pemilik: warna apa yang sudah dipakai di kartu nama, kemasan, atau tanda tokonya?
 

@@ -115,6 +115,10 @@ Tanya dengan jujur, dalam urutan ini.
 4. Apakah tiap keputusan di komentar bukti menunjuk ke subjek, atau hanya ke selera umum?
 5. Apakah ada klaim, angka, atau testimoni yang tidak punya sumber?
 6. Apakah halaman ini bisa tertukar dengan halaman dari subjek lain hanya dengan mengganti teks? Kalau bisa, ia belum dirancang.
+7. Apakah semua judul berirama sama, dan semua jarak antar section sama? Hitung, jangan menebak.
+8. Apakah kerangkanya sama dengan halaman lain yang pernah kamu buat? Bandingkan urutan section satu baris.
+
+Jawab tiap pertanyaan tertulis di laporan dengan bukti (kutipan judul, nilai padding, urutan section). "Sudah" tanpa bukti dihitung gagal.
 
 ## Laporan akhir ke pemilik
 

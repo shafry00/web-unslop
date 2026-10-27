@@ -21,6 +21,28 @@ Struktur yang dihindari:
 - Tanda seru.
 - Emoji hiasan.
 
+## Jangan mengarang fakta
+
+Spesifik yang karangan lebih buruk daripada kabur yang jujur, karena terlihat meyakinkan. Harga, durasi, tahun berdiri, jumlah pelanggan, syarat garansi, dan kutipan harus berasal dari pemilik atau sumber yang bisa dicek.
+
+- Belum ada datanya: tulis `[ISI: apa yang dibutuhkan]` di tempatnya. Contoh: `[ISI: tarif stempel flash]`. Linter memberi WARN `placeholder-left` selama masih tersisa.
+- Pemilik menyuruh mengarang untuk contoh: tandai halamannya sebagai contoh di tempat yang terlihat, dan jangan memakainya sebagai bukti kualitas skill.
+- Angka perkiraan: tulis sebagai perkiraan dan sebut asumsinya.
+
+## Irama judul
+
+Judul yang semuanya berbentuk dua klausa dengan koma ("Harga tertulis, selesai sebelum Anda pulang"), semuanya sepanjang dua baris, dan semuanya bernada janji kecil, terbaca disusun mesin. Linter menandai bila separuh judul atau lebih berpola itu (`heading-cadence`).
+
+Variasikan:
+
+- Judul satu kata atau satu kata benda: "Tarif."
+- Judul berupa pertanyaan nyata dari pembaca: "Berapa lama kalau jamnya mati total?"
+- Judul berupa pernyataan fakta tanpa klausa kedua: "Servis total lima hari kerja."
+- Tanpa judul: langsung isi, bila kontennya sudah menjelaskan diri.
+- Judul panjang untuk satu bagian saja yang memang butuh argumen.
+
+Jangan mewarnai atau menebalkan kata terakhir judul untuk "menekankan". Itu tell yang sangat umum (`accent-last-word`).
+
 ## Pengganti: spesifik dan bisa dibuktikan
 
 | Pengisi | Spesifik |

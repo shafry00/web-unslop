@@ -27,6 +27,8 @@ Tulis jawaban singkat untuk enam hal sebelum menyentuh kode. Kalau jawabannya ti
 - Tiga halaman atau situs yang disukai pemilik dan alasan spesifiknya.
 - Batasan: bahasa, merek yang sudah ada, tema gelap atau terang, anggaran performa.
 
+**Fakta nyata atau placeholder.** Harga, durasi, nama, alamat, angka, kutipan, dan syarat harus datang dari pemilik. Kalau belum ada, tulis `[ISI: harga stempel flash]` di tempatnya. Jangan mengarang angka yang terdengar spesifik, itu spesifik palsu dan justru tell terkuat. Linter menandai `[ISI:` yang tersisa sebagai WARN supaya halaman draf tidak lolos rilis diam-diam.
+
 Template lengkap ada di `references/process.md`. Kalau proyek sudah punya `.impeccable.md`, pakai itu sebagai isi brief dan jangan mewawancarai ulang. Untuk wawancara penemuan yang lebih panjang, buka `vendor/impeccable/commands/shape.md`.
 
 ### 1. Arah dan tiga dial
@@ -58,6 +60,8 @@ Gambar struktur dengan kotak ASCII dulu. Tidak ada warna, font, atau ikon. Tujua
 ```
 
 Buat dua atau tiga variasi struktur sebelum memilih. Struktur pertama yang terlintas biasanya struktur default.
+
+**Tes kerangka.** Sebelum lanjut, tulis urutan section halaman ini dalam satu baris. Bandingkan dengan kerangka bawaan: hero + CTA, lalu tabel atau tiga langkah atau tiga fitur, lalu FAQ, lalu penutup. Kalau urutannya sama, tanyakan untuk tiap section apa yang membuatnya ada di halaman ini, bukan di halaman subjek lain. Hapus yang tidak punya jawaban. Susun ulang urutan dari apa yang ditanyakan pembaca. Detail dan daftar kerangka bawaan di `references/layout.md`.
 
 ### 3. Tipografi
 
@@ -108,6 +112,8 @@ Detail dan contoh sebelum-sesudah di `references/copy.md`.
 - Hapus kata pengisi dan kalimat pembuka kosong. Daftar lengkap ada di `references/tells.md`.
 - Setiap klaim membawa angka, mekanisme, syarat, atau nama. Klaim tanpa bukti dihapus.
 - Panjang kalimat tidak seragam. Hindari ritme tiga item dan struktur "bukan X tapi Y".
+- Judul section jangan seragam. Kalau semua h2 berbentuk "X, lalu Y" atau semuanya sepanjang dua baris, halaman terbaca disusun mesin. Campur: judul satu kata, judul pertanyaan pembaca, judul tanpa judul sama sekali (langsung isi).
+- Jangan mewarnai kata terakhir judul.
 - CTA menyebut aksi persis yang terjadi: "Kirim foto jam ke WhatsApp", bukan "Mulai sekarang".
 - Jalankan tujuh sapuan satu per satu: Clarity, Voice, So What, Prove It, Specificity, Emotion, Zero Risk.
 
@@ -126,9 +132,9 @@ Jalankan berurutan. Jangan menyatakan selesai sebelum ketiganya bersih.
 
 1. **Linter:** `python3 scripts/unslop_lint.py path/ke/halaman.html`. Perbaiki semua FAIL. Baca tiap WARN dan putuskan sadar, bukan reflek menekan. Untuk menegakkannya otomatis, pasang `hooks/web-unslop-gate.py` sebagai hook PreToolUse (lihat README).
 2. **Screenshot nyata**, desktop dan lebar sempit. Perintahnya ada di `references/process.md`. Cari teks terpotong, elemen menumpuk, spasi kata yang hilang, dan karakter non-ASCII yang rusak.
-3. **Uji slop:** bayangkan halaman ini ditunjukkan ke orang yang diberi tahu "ini buatan AI". Kalau mereka langsung percaya, ada tell yang tersisa. Cek ulang katalog di `references/tells.md` bagian per bagian, lalu tanyakan: apakah ada satu elemen yang berani, atau semuanya aman?
+3. **Uji slop, tertulis.** Jawab enam pertanyaan di `references/process.md` satu per satu di laporan, lengkap dengan bukti dari halaman. Yang paling sering gagal: (a) apakah halaman ini bisa tertukar dengan halaman subjek lain hanya dengan mengganti teks, (b) apakah ada angka atau klaim yang saya karang, (c) apakah semua judul dan semua jarak antar section berirama sama. Jawaban "sudah" tanpa bukti dianggap gagal.
 
-Linter hanya menangkap pola mekanis. Lolos linter adalah syarat minimal, bukan bukti bahwa halamannya bagus. Untuk penilaian yang lebih dalam dan bersekor, buka `vendor/impeccable/commands/critique.md` dan `audit.md`.
+Linter hanya menangkap pola mekanis. Lolos linter adalah syarat minimal, bukan bukti bahwa halamannya bagus. Dua halaman di `examples/lolos-linter/` lolos tanpa FAIL tapi tetap terbaca AI, dan itu disimpan sebagai peringatan. Untuk penilaian yang lebih dalam dan bersekor, buka `vendor/impeccable/commands/critique.md` dan `audit.md`.
 
 ## Perintah perbaikan (dari Impeccable)
 
@@ -167,10 +173,11 @@ Peta lengkap, cara membaca teks Inggrisnya, dan aturan siapa yang menang saat be
 | `vendor/impeccable/` | Salinan utuh Impeccable v2.1.1: SKILL.md, 9 referensi, 16 perintah. Apache-2.0. |
 | `hooks/web-unslop-gate.py` | Hook yang menolak penulisan halaman yang gagal linter. |
 | `references/lint-rules.md` | Arti tiap rule linter dan cara menekannya. |
-| `examples/bengkel-jam/` | Contoh halaman utuh yang lolos linter. |
+| `examples/lolos-linter/` | Dua halaman yang lolos linter tapi tetap terbaca AI, lengkap dengan daftar alasannya. Contoh buruk, bukan teladan. |
 
 ## Yang sengaja tidak dilakukan skill ini
 
 - Tidak menyuruh membuat desain "minimalis" sebagai pelarian. Halaman sepi tanpa keputusan juga terbaca otomatis.
 - Tidak memberi daftar font pilihan. Daftar pilihan hanya melahirkan refleks baru. Library swatch ada sebagai opsi kedua dengan batasan yang dijelaskan, bukan sebagai jalan pintas.
+- Tidak mengisi fakta yang tidak diketahui. Placeholder lebih baik daripada angka karangan.
 - Tidak menilai selera. Linter mendeteksi pola, penilaian akhir tetap manusia.

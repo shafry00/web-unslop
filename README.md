@@ -18,7 +18,7 @@ Halaman hasil AI punya sidik jari yang sama: Inter atau Space Grotesk, gradien u
 | `vendor/impeccable/` | Salinan utuh Impeccable v2.1.1: SKILL.md, 9 referensi, 16 perintah perbaikan. Apache-2.0 |
 | `hooks/web-unslop-gate.py` | Hook PreToolUse yang menolak penulisan halaman yang gagal linter |
 | `scripts/unslop_lint.py` | Linter tanpa dependensi, Python 3 saja |
-| `examples/bengkel-jam/` | Halaman contoh utuh yang lolos linter |
+| `examples/lolos-linter/` | Dua halaman yang lolos linter tapi tetap terbaca AI. Contoh buruk yang disimpan sebagai peringatan, lengkap dengan alasannya |
 | `tests/test_lint.py` | Tes yang membuktikan tiap rule benar-benar mendeteksi |
 
 ## Pasang
@@ -80,9 +80,12 @@ Variabel opsional: `WEB_UNSLOP_STRICT=1` (WARN ikut memblokir) dan `WEB_UNSLOP_R
 2. **Setiap keputusan menunjuk ke subjek.** Font dari benda cetak yang mewakili merek. Warna dari detail fisik tempatnya. Copy dari angka dan syarat nyata.
 3. **Satu pusat perhatian.** Halaman yang terlihat dirancang berkomitmen pada satu pilihan besar. Halaman yang semuanya berukuran sedang terbaca otomatis.
 4. **Mesin menangkap pola, manusia menilai selera.** Linter hanya syarat minimal.
+5. **Tidak ada fakta karangan.** Harga, angka, dan syarat berasal dari pemilik. Yang belum ada ditulis `[ISI: ...]`.
+6. **Kerangka berasal dari isi.** Skill menyertakan tes kerangka supaya halaman tidak otomatis menjadi hero, tabel, langkah, FAQ.
 
 ## Batasan yang perlu diketahui
 
+- **Repo ini belum punya contoh teladan.** Dua halaman di `examples/lolos-linter/` dibuat dengan skill ini, lolos tanpa FAIL, dan tetap terbaca AI oleh pemiliknya. Keduanya dipertahankan sebagai bukti bahwa lolos linter tidak cukup. Linter lalu diperkuat sampai menandai sebagian alasannya, dan sisanya hanya bisa dinilai manusia. Kalau kamu membangun halaman yang benar-benar lolos uji slop dari brief nyata, kirim sebagai PR.
 - Lolos linter tidak menjamin halaman bagus. Linter tidak melihat komposisi, ritme, atau kualitas foto.
 - Daftar font refleks dan frasa terlarang bersifat berbasis pengamatan dan akan menua. Tambahkan lewat PR.
 - Rule berbasis regex dan struktur HTML saudara. Komponen yang dirender lewat JavaScript tidak terjangkau deteksi kartu identik.
@@ -92,11 +95,12 @@ Variabel opsional: `WEB_UNSLOP_STRICT=1` (WARN ikut memblokir) dan `WEB_UNSLOP_R
 ## Tes
 
 ```bash
-python3 examples/bengkel-jam/build.py   # membangun index.html dari template + font
+python3 examples/lolos-linter/bengkel-jam/build.py   # membangun index.html dari template + font
+python3 examples/lolos-linter/stempel-rudi/build.py
 python3 tests/test_lint.py
 ```
 
-Tes memeriksa tiga hal: tiap rule menangkap sampel buruk (sampel ditulis sebagai string di dalam tes, jadi repo tidak memuat halaman buruk), contoh bengkel jam bersih, dan dokumen di repo ini sendiri lolos linter.
+Tes memeriksa tiga hal: tiap rule menangkap sampel buruk (sampel ditulis sebagai string di dalam tes), dua halaman di `examples/lolos-linter/` tidak FAIL tapi ditandai `skeleton-landing`, dan dokumen di repo ini sendiri lolos linter.
 
 ## Sumber ide
 
@@ -114,6 +118,6 @@ Repo pendamping untuk teks non-halaman: [unslop](https://github.com/shafry00/uns
 MIT untuk semua kecuali dua bagian:
 
 - `vendor/impeccable/` adalah karya Paul Bakaus, Apache-2.0, disalin tanpa perubahan. Lisensi dan pemberitahuan ada di folder itu.
-- Font contoh di `examples/bengkel-jam/fonts/` berlisensi SIL OFL 1.1.
+- Font contoh di `examples/lolos-linter/*/fonts/` berlisensi SIL OFL 1.1.
 
 Library warna di `references/palette-library.md` menyebut sumber swatchnya.
