@@ -1,0 +1,89 @@
+# web-unslop
+
+Skill untuk agen AI (Claude Code, Cursor, OpenCode, dan sejenisnya) supaya halaman web yang dihasilkan tidak terbaca sebagai buatan AI. Satu repo berisi alur kerja, katalog tell, dan linter yang bisa dijalankan.
+
+Halaman hasil AI punya sidik jari yang sama: Inter atau Space Grotesk, gradien ungu ke biru, tiga kartu berikon, semua rata tengah, dan kalimat seperti `solusi terbaik` atau `seamless`. Skill ini melarang pilihan-pilihan itu dan, lebih penting, melarang menggantinya dengan refleks berikutnya.
+
+## Isi
+
+| Bagian | Fungsi |
+|---|---|
+| `SKILL.md` | Alur sepuluh langkah: brief, dial, wireframe, tipografi, warna, layout, gerak, copy, bangun, verifikasi |
+| `references/tells.md` | Katalog tell lengkap dengan pengganti, per kategori |
+| `references/typography.md` `color.md` `layout.md` `motion.md` `copy.md` | Detail tiap bidang |
+| `references/process.md` | Template brief, wireframe, komentar bukti, perintah screenshot, uji slop |
+| `scripts/unslop_lint.py` | Linter tanpa dependensi, Python 3 saja |
+| `examples/bengkel-jam/` | Halaman contoh utuh yang lolos linter |
+| `tests/test_lint.py` | Tes yang membuktikan tiap rule benar-benar mendeteksi |
+
+## Pasang
+
+Claude Code:
+
+```bash
+git clone https://github.com/shafry00/web-unslop ~/.claude/skills/web-unslop
+```
+
+Agen lain: salin isi repo ke folder skill atau instruksi proyek, dan arahkan agen ke `SKILL.md`.
+
+## Pakai
+
+Saat meminta agen membuat atau mengedit halaman, skill otomatis relevan. Untuk memanggil eksplisit: "pakai web-unslop".
+
+Linter bisa dijalankan sendiri, tanpa agen:
+
+```bash
+python3 scripts/unslop_lint.py halaman.html
+python3 scripts/unslop_lint.py src/ --strict
+```
+
+Contoh keluaran:
+
+```
+bad.html:3: FAIL gradient-text: teks bergradien (background-clip:text). Pakai satu warna solid, tekankan lewat bobot atau ukuran.
+bad.html:4: FAIL side-stripe: garis aksen tebal di sisi kiri/kanan kartu. Pakai border penuh, tint latar, atau angka/ikon di depan.
+bad.html:14: FAIL hype-copy: frasa kosong `seamless`. Ganti klaim spesifik (angka, mekanisme, hasil).
+
+3 FAIL, 0 WARN
+```
+
+Daftar rule dan batasannya ada di `references/lint-rules.md`.
+
+## Prinsip
+
+1. **Jangan tukar satu refleks dengan refleks lain.** Daftar font terlarang yang pendek hanya memindahkan refleks ke font berikutnya. Karena itu skill ini memberi prosedur memilih, bukan daftar pilihan.
+2. **Setiap keputusan menunjuk ke subjek.** Font dari benda cetak yang mewakili merek. Warna dari detail fisik tempatnya. Copy dari angka dan syarat nyata.
+3. **Satu pusat perhatian.** Halaman yang terlihat dirancang berkomitmen pada satu pilihan besar. Halaman yang semuanya berukuran sedang terbaca otomatis.
+4. **Mesin menangkap pola, manusia menilai selera.** Linter hanya syarat minimal.
+
+## Batasan yang perlu diketahui
+
+- Lolos linter tidak menjamin halaman bagus. Linter tidak melihat komposisi, ritme, atau kualitas foto.
+- Daftar font refleks dan frasa terlarang bersifat berbasis pengamatan dan akan menua. Tambahkan lewat PR.
+- Rule berbasis regex dan struktur HTML saudara. Komponen yang dirender lewat JavaScript tidak terjangkau deteksi kartu identik.
+- Kontras warna tidak dihitung otomatis. Rumusnya ada di `references/color.md`.
+- Isi komentar bukti di halaman tidak bisa diverifikasi mesin.
+
+## Tes
+
+```bash
+python3 examples/bengkel-jam/build.py   # membangun index.html dari template + font
+python3 tests/test_lint.py
+```
+
+Tes memeriksa tiga hal: tiap rule menangkap sampel buruk (sampel ditulis sebagai string di dalam tes, jadi repo tidak memuat halaman buruk), contoh bengkel jam bersih, dan dokumen di repo ini sendiri lolos linter.
+
+## Sumber ide
+
+Teks di repo ini ditulis ulang, tetapi gagasannya berutang pada karya terbuka berikut:
+
+- [impeccable](https://github.com/pbakaus/impeccable) (pbakaus): daftar larangan CSS, uji slop, prosedur memilih font.
+- [taste-skill](https://github.com/Leonxlnx/taste-skill): inferensi brief dan tiga dial.
+- [anti-slop-writing](https://github.com/adenaufal/anti-slop-writing): larangan kosakata dan tanda pisah.
+- [marketingskills](https://github.com/coreyhaines31/marketingskills): tujuh sapuan copy editing.
+
+Repo pendamping untuk teks non-halaman: [unslop](https://github.com/shafry00/unslop).
+
+## Lisensi
+
+MIT. Font contoh di `examples/bengkel-jam/fonts/` berlisensi SIL OFL 1.1.

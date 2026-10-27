@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bengkel Jam Pak Hasan, Lorong 4 Pasar Baru</title>
+<meta name="description" content="Contoh halaman untuk repo web-unslop. Bengkel jam tangan fiktif: tarif tertulis, estimasi lewat foto, garansi enam bulan di nota.">
+<!-- juni-design-pro-max
+component: tidak ada referensi 21st.dev. Ini contoh dokumentasi repo, dibangun manual dari struktur tabel tarif dan daftar bernomor
+wireframe: hero tipografi besar kiri + jarum jam sebagai ornamen kanan, tabel tarif, 3 langkah bernomor offset, FAQ details, penutup
+motion: satu momen saja, jarum jam menyapu masuk saat load (rotate keyframes, cubic-bezier overshoot ringan). Tanpa library, tanpa riset baru
+layout: asimetris 12 kolom, headline menempati 9 kolom, bagian tarif memakai garis tabel bukan kartu, langkah digeser berselang-seling
+font: Petrona (display, serif ber-karakter tinta cetak untuk nota dan papan toko) + Karla (body, sans netral untuk tabel dan angka)
+copy: register (c) institusional-ringkas. Sweep Specificity dan Prove It: tiap klaim berisi angka, durasi, atau syarat
+-->
+<style>
+  @font-face {
+    font-family: "Petrona";
+    font-weight: 700;
+    font-display: swap;
+    src: url("data:font/ttf;base64,__PETRONA__") format("truetype");
+  }
+  @font-face {
+    font-family: "Karla";
+    font-weight: 400;
+    font-display: swap;
+    src: url("data:font/ttf;base64,__KARLA__") format("truetype");
+  }
+
+  :root {
+    color-scheme: light dark;
+    --paper: #e8ebe2;
+    --ink: #18201b;
+    --muted: #4a5750;
+    --felt: #26382f;
+    --on-felt: #e8ebe2;
+    --brass: #c9a24d;
+    --rule: #b9c0b3;
+    --link: #2b5642;
+    --ease: cubic-bezier(0.34, 1.4, 0.64, 1);
+    --step--1: clamp(0.8rem, 0.77rem + 0.15vw, 0.9rem);
+    --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    --step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.2rem);
+    --step-5: clamp(3rem, 1.4rem + 8vw, 8.5rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #151b17; --ink: #e6e9df; --muted: #a3ada5; --felt: #1e2f26;
+      --rule: #34413a; --link: #9cc9ae;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #151b17; --ink: #e6e9df; --muted: #a3ada5; --felt: #1e2f26;
+    --rule: #34413a; --link: #9cc9ae;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 var(--step-0) / 1.6 "Karla", sans-serif;
+  }
+  .wrap { width: min(1180px, 100% - 2rem); margin-inline: auto; }
+  h1, h2, .num { font-family: "Petrona", serif; font-weight: 700; letter-spacing: -0.02em; }
+  p { max-width: 62ch; margin: 0 0 1em; }
+  a { color: var(--link); text-underline-offset: 0.2em; }
+  a:focus-visible, summary:focus-visible, .cta:focus-visible {
+    outline: 3px solid var(--brass); outline-offset: 3px;
+  }
+
+  /* hero */
+  .hero { background: var(--felt); color: var(--on-felt); padding-block: clamp(2.5rem, 7vw, 6rem) clamp(2rem, 5vw, 4rem); overflow: hidden; }
+  .hero .wrap { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem; position: relative; }
+  .hero h1 { grid-column: 1 / span 9; margin: 0; font-size: var(--step-5); line-height: 0.95; }
+  .hero h1 em { font-style: normal; color: var(--brass); }
+  .hero .lede { grid-column: 1 / span 6; font-size: var(--step-2); line-height: 1.3; margin-top: 2rem; max-width: 30ch; }
+  .hero .where { grid-column: 8 / span 5; align-self: end; font-size: var(--step--1); margin: 0; border-top: 1px solid var(--brass); padding-top: 0.75rem; }
+  .cta {
+    grid-column: 1 / span 6; justify-self: start;
+    display: inline-block; padding: 0.9rem 1.4rem; background: var(--brass); color: #18201b;
+    font-weight: 400; text-decoration: none; border-radius: 2px;
+    transition: transform 0.35s var(--ease), background-color 0.2s;
+  }
+  .cta:hover { transform: translate(2px, -2px); }
+  .face { position: absolute; right: -170px; top: -50px; width: 420px; opacity: 0.9; pointer-events: none; }
+  .face circle { fill: none; stroke: var(--brass); }
+  .hand { transform-origin: 200px 200px; stroke: var(--brass); stroke-linecap: round; animation: sweep 1.6s var(--ease) 0.2s both; }
+  .hand.h { animation-name: sweep-h; }
+  @keyframes sweep { from { transform: rotate(-200deg); } to { transform: rotate(52deg); } }
+  @keyframes sweep-h { from { transform: rotate(-120deg); } to { transform: rotate(-38deg); } }
+
+  /* sections */
+  section { padding-block: clamp(2.5rem, 6vw, 5rem); }
+  h2 { font-size: var(--step-2); line-height: 1.1; margin: 0 0 1.5rem; max-width: 22ch; }
+
+  /* tarif */
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font-weight: 400; color: var(--muted); font-size: var(--step--1); padding: 0 0 0.5rem; border-bottom: 2px solid var(--ink); }
+  td { padding: 1rem 1rem 1rem 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+  td:last-child, th:last-child { text-align: right; padding-right: 0; }
+  tbody tr { background: linear-gradient(var(--brass), var(--brass)) no-repeat 0 100% / 0 2px; transition: background-size 0.45s var(--ease); }
+  tbody tr:hover { background-size: 100% 2px; }
+  .note { color: var(--muted); font-size: var(--step--1); margin-top: 1rem; }
+
+  /* langkah */
+  ol { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(1.5rem, 4vw, 3rem); }
+  ol li { display: grid; grid-template-columns: 5rem 1fr; gap: 1rem; align-items: baseline; }
+  ol li:nth-child(2) { margin-left: clamp(0rem, 8vw, 7rem); }
+  ol li:nth-child(3) { margin-left: clamp(0rem, 16vw, 14rem); }
+  .num { font-size: 4.5rem; line-height: 0.9; color: var(--brass); }
+  ol p { margin: 0; font-size: var(--step-2); line-height: 1.3; max-width: 28ch; }
+
+  /* faq */
+  details { border-bottom: 1px solid var(--rule); padding-block: 1rem; }
+  summary { cursor: pointer; font-weight: 400; font-size: 1.1rem; }
+  details p { margin: 0.75rem 0 0; color: var(--muted); }
+
+  footer { border-top: 2px solid var(--ink); padding-block: 1.5rem 3rem; color: var(--muted); font-size: var(--step--1); }
+
+  @media (max-width: 720px) {
+    .hero h1, .hero .lede, .hero .where, .cta { grid-column: 1 / -1; }
+    .face { width: 260px; right: -120px; top: -30px; opacity: 0.28; }
+    ol li:nth-child(n) { margin-left: 0; }
+    ol li { grid-template-columns: 3.5rem 1fr; }
+    .num { font-size: 3.2rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hand, .hand.h { animation: none; }
+    .hand { transform: rotate(52deg); } .hand.h { transform: rotate(-38deg); }
+    .cta, tbody tr { transition: none; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <svg class="face" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+      <circle cx="200" cy="200" r="170" stroke-width="2"/>
+      <circle cx="200" cy="200" r="150" stroke-width="10" stroke-dasharray="2 15.8" />
+      <circle cx="200" cy="200" r="150" stroke-width="22" stroke-dasharray="4 85.6" />
+      <line class="hand" x1="200" y1="200" x2="200" y2="64" stroke-width="3"/>
+      <line class="hand h" x1="200" y1="200" x2="200" y2="112" stroke-width="7"/>
+      <circle cx="200" cy="200" r="7" fill="#c9a24d" stroke="none"/>
+    </svg>
+    <h1>Jam mati belum tentu <em>rusak.</em></h1>
+    <p class="lede">Kirim foto muka dan belakang jamnya. Estimasi biaya tertulis datang sebelum ada yang dibongkar.</p>
+    <a class="cta" href="#kontak">Kirim foto jam ke WhatsApp</a>
+    <p class="where">Lorong 4, Pasar Baru. Senin sampai Sabtu, 09.00 sampai 17.00. Minggu tutup.</p>
+  </div>
+</header>
+
+<main>
+  <section id="tarif">
+    <div class="wrap">
+      <h2>Tarif mulai dari, tanpa tambahan diam-diam</h2>
+      <table>
+        <thead><tr><th scope="col">Pekerjaan</th><th scope="col">Waktu</th><th scope="col">Mulai dari</th></tr></thead>
+        <tbody>
+          <tr><td>Ganti baterai quartz</td><td>20 menit</td><td>Rp 35.000</td></tr>
+          <tr><td>Ganti tali kulit atau karet</td><td>15 menit</td><td>Rp 45.000</td></tr>
+          <tr><td>Ganti kaca mineral</td><td>1 hari</td><td>Rp 60.000</td></tr>
+          <tr><td>Uji kedap air sampai 5 bar</td><td>30 menit</td><td>Rp 50.000</td></tr>
+          <tr><td>Servis total jam mekanik</td><td>5 hari kerja</td><td>Rp 350.000</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Harga di atas untuk jam dengan komponen yang masih mudah didapat. Jam yang butuh suku cadang khusus dikabari dulu, dan tidak dibongkar tanpa persetujuan.</p>
+    </div>
+  </section>
+
+  <section id="langkah">
+    <div class="wrap">
+      <h2>Tiga langkah, dan Anda bayar di langkah terakhir</h2>
+      <ol>
+        <li><span class="num">1</span><p>Kirim foto muka dan belakang jam, plus keluhannya.</p></li>
+        <li><span class="num">2</span><p>Terima estimasi tertulis dalam satu hari kerja. Setuju atau tidak, tidak ada biaya.</p></li>
+        <li><span class="num">3</span><p>Ambil di Lorong 4 dengan nota. Garansi servis enam bulan tercatat di nota itu.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="tanya">
+    <div class="wrap">
+      <h2>Yang biasanya ditanyakan</h2>
+      <details><summary>Jam warisan kakek masih bisa diservis?</summary><p>Biasanya bisa. Jam sebelum 1990 kadang memakai komponen yang sudah tidak diproduksi. Kami cek dulu, kabari komponen mana yang harus dibuat ulang atau dicari bekas, lalu Anda yang memutuskan.</p></details>
+      <details><summary>Apakah foto cukup untuk estimasi?</summary><p>Untuk kerusakan umum, cukup. Kalau jam bunyi atau berhenti di jam tertentu, tambahkan video pendek. Angka final tetap dikonfirmasi setelah jam diperiksa di meja kerja.</p></details>
+      <details><summary>Garansi enam bulan menanggung apa?</summary><p>Pekerjaan yang tertulis di nota. Kerusakan baru akibat jatuh atau terendam tidak termasuk, dan itu juga tertulis di nota.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer id="kontak">
+  <div class="wrap">
+    <p>Bengkel Jam Pak Hasan adalah usaha fiktif. Halaman ini contoh di repo web-unslop untuk memperlihatkan hasil yang lolos pemeriksaan. Font: Petrona dan Karla, lisensi SIL OFL 1.1.</p>
+  </div>
+</footer>
+</body>
+</html>
