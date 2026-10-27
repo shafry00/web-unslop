@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Universitas Sebelas Maret, Surakarta</title>
+<meta name="description" content="Halaman konsep tidak resmi tentang Universitas Sebelas Maret, Surakarta. Memakai bahasa visual uns.ai.id. Bagian yang belum ada datanya ditandai jelas.">
+<!-- unslop-allow: reflex-font, hard-shadow, side-stripe, accent-last-word, pure-black-white -->
+<!-- juni-design-pro-max
+component: tidak ada pencarian baru. Komponen diambil dari sistem desain uns.ai.id milik pemilik sendiri (hero swirl, kisi lingkaran, huruf U berkisi, jendela piksel, tombol bayangan keras, kolom vertikal gaya LUHUR)
+wireframe: hero biru cer + Wiku di huruf U, pernyataan fakta, strip kolom vertikal fakultas, Kentingan + slot foto, jendela piksel berisi data yang belum ada
+motion: swirl digambar sekali, Wiku bergoyang pelan, jendela piksel naik dengan pegas. Semua dipadamkan saat reduced motion
+layout: asimetris, pusat perhatian Wiku di huruf U, bagian berbeda bentuk (strip vertikal, jendela piksel, pernyataan besar)
+font: Montserrat 800/600 (judul), Lato (isi), Silkscreen (jendela piksel), ketiganya sama dengan uns.ai.id
+copy: register c institusional ringkas. Hanya fakta yang dikenal, sisanya [ISI: ...]
+-->
+<!-- web-unslop
+component: sistem desain uns.ai.id (milik pemilik), aset Wiku dan font diambil dari sumbernya
+brief   : calon mahasiswa dan keluarga yang ingin mengenal UNS. Tindakan: membuka uns.ac.id. Benda fisik: kartu identitas mahasiswa dan jendela program tahun 90an. Data resmi belum ada
+dial    : VARIANCE 7 / MOTION 4 / DENSITY 4
+wireframe: lihat komentar sebelumnya
+layout  : Wiku sebagai aset milik subjek, strip vertikal untuk daftar, jendela piksel untuk data kosong. Padding tiap section diatur sendiri
+font    : Montserrat, Lato, Silkscreen. Font merek uns.ai.id, bukan hasil prosedur baru, jadi diizinkan lewat unslop-allow
+warna   : cer #0E7DA7, sky #1FABE1, kuning #FFDB07, tinta #062B3F. Token uns.ai.id, bukan turunan baru
+gerak   : swirl, goyang Wiku, naik pegas. Reduced motion mematikan semuanya
+copy    : fakta yang saya yakini (berdiri 11 Maret 1976, Surakarta, Kentingan), selebihnya [ISI]. Tanpa angka dan testimoni karangan
+-->
+<style>
+  @font-face { font-family: "Montserrat"; font-weight: 800; font-display: swap; src: url("data:font/woff2;base64,__MONT800__") format("woff2"); }
+  @font-face { font-family: "Montserrat"; font-weight: 600; font-display: swap; src: url("data:font/woff2;base64,__MONT600__") format("woff2"); }
+  @font-face { font-family: "Lato"; font-weight: 400; font-display: swap; src: url("data:font/woff2;base64,__LATO400__") format("woff2"); }
+  @font-face { font-family: "Lato"; font-weight: 700; font-display: swap; src: url("data:font/woff2;base64,__LATO700__") format("woff2"); }
+  @font-face { font-family: "Silkscreen"; font-weight: 400; font-display: swap; src: url("data:font/woff2;base64,__SILK__") format("woff2"); }
+
+  :root {
+    color-scheme: light dark;
+    --sky: #1FABE1; --sky25: #C7EAF7; --cer: #0E7DA7; --cer25: #C3DEE9;
+    --yel: #FFDB07; --ink: #062B3F;
+    --bg: #F2FAFD; --surface: #FFFFFF; --text: #062B3F; --muted: #35596B; --band: #C7EAF7;
+    --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --pad: clamp(20px, 5vw, 72px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #041A27; --surface: #0A2A3C; --text: #E8F4FA; --muted: #9DBFCC; --band: #0B3347; }
+  }
+  :root[data-theme="dark"] { --bg: #041A27; --surface: #0A2A3C; --text: #E8F4FA; --muted: #9DBFCC; --band: #0B3347; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { background: var(--bg); color: var(--text); font: 400 17px / 1.6 "Lato", system-ui, sans-serif; overflow-x: hidden; }
+  h1, h2, h3 { font-family: "Montserrat", system-ui, sans-serif; font-weight: 800; line-height: 1.04; letter-spacing: -0.02em; }
+  a { color: inherit; }
+  a:focus-visible { outline: 3px solid var(--yel); outline-offset: 3px; }
+  .wrap { padding-inline: var(--pad); max-width: 1320px; margin-inline: auto; }
+  .skip { position: absolute; left: -999px; top: 0; background: var(--yel); color: var(--ink); padding: 8px 14px; z-index: 99; }
+  .skip:focus { left: 8px; top: 8px; }
+
+  .btn { display: inline-flex; align-items: center; gap: 10px; font: 800 15px "Montserrat", sans-serif; text-decoration: none; padding: 14px 22px; border-radius: 999px; border: 3px solid transparent; transition: transform 0.35s var(--spring), box-shadow 0.35s var(--spring), background-color 0.2s; }
+  .btn:hover { transform: translateY(-3px) scale(1.03); }
+  .btn:active { transform: scale(0.97); }
+  .btn-y { background: var(--yel); color: var(--ink); box-shadow: 0 5px 0 rgba(6, 43, 63, 0.35); }
+  .btn-y:hover { box-shadow: 0 9px 0 rgba(6, 43, 63, 0.35); }
+  .btn-ghost { border-color: rgba(255, 255, 255, 0.7); color: #fff; }
+  .btn-ghost:hover { background: rgba(255, 255, 255, 0.14); }
+  .btn svg { width: 18px; height: 18px; }
+
+  /* atas */
+  .top { position: absolute; inset: 0 0 auto 0; z-index: 40; color: #fff; }
+  .top .in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px var(--pad); max-width: 1320px; margin-inline: auto; }
+  .brand { font: 800 17px "Montserrat", sans-serif; text-decoration: none; letter-spacing: -0.01em; line-height: 1.1; }
+  .brand small { display: block; font: 600 11px "Montserrat", sans-serif; opacity: 0.85; letter-spacing: 0.04em; text-transform: uppercase; }
+  .top nav { display: none; gap: 26px; align-items: center; margin-left: auto; }
+  .top nav a { font: 600 14px "Montserrat", sans-serif; text-decoration: none; padding: 6px 2px; border-bottom: 2px solid transparent; transition: border-color 0.2s; }
+  .top nav a:hover { border-color: var(--yel); }
+
+  /* hero */
+  .hero { position: relative; background: var(--cer); color: #fff; overflow: hidden; isolation: isolate; min-height: min(100svh, 900px); padding-top: 76px; }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(900px 600px at 82% 62%, rgba(31, 171, 225, 0.55), transparent 70%); }
+  .swirl { position: absolute; right: -8%; top: -14%; width: min(760px, 95vw); z-index: -1; opacity: 0.35; }
+  .swirl path { fill: none; stroke: #fff; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 3.2s var(--ease) 0.2s forwards; }
+  .lattice { position: absolute; left: -40px; bottom: -30px; width: min(620px, 80vw); height: min(420px, 52vw); z-index: -1; opacity: 0.5; -webkit-mask-image: radial-gradient(closest-side at 30% 70%, #000, transparent); mask-image: radial-gradient(closest-side at 30% 70%, #000, transparent); }
+  .hero-grid { display: grid; gap: 12px; align-items: end; }
+  .hero-copy { padding-top: clamp(18px, 4vh, 48px); padding-bottom: clamp(28px, 6vh, 72px); align-self: center; }
+  .hero h1 { font-size: clamp(2.5rem, 7vw, 5.4rem); max-width: 10ch; }
+  .hero h1 em { font-style: normal; color: var(--yel); }
+  .hero .sub { margin-top: 22px; max-width: 46ch; font-size: clamp(1.02rem, 1.5vw, 1.2rem); color: rgba(255, 255, 255, 0.95); }
+  .hero .disc { margin-top: 18px; max-width: 52ch; font-size: 0.92rem; line-height: 1.55; color: rgba(255, 255, 255, 0.95); border-left: 4px solid var(--yel); padding: 2px 0 2px 14px; }
+  .hero .disc b { color: var(--yel); font-weight: 700; }
+  .cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 14px; }
+
+  .stage { position: relative; width: min(460px, 86vw); margin-inline: auto; aspect-ratio: 400 / 470; align-self: end; }
+  .u { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .wk { position: absolute; left: 50%; bottom: 11%; height: 66%; width: auto; transform: translateX(-50%); filter: drop-shadow(0 14px 0 rgba(6, 43, 63, 0.22)); transform-origin: 50% 100%; animation: sway 5s ease-in-out infinite; }
+  .spark { position: absolute; color: var(--yel); animation: tw 2.6s ease-in-out infinite; }
+  .sp1 { width: 22px; height: 22px; left: 6%; top: 40%; }
+  .sp2 { width: 15px; height: 15px; right: 4%; top: 22%; animation-delay: 1.1s; }
+  .pix { position: absolute; left: 50%; top: 3%; width: min(232px, 52%); background: #FFFBEA; color: var(--ink); border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); font-family: "Silkscreen", monospace; transform: translateX(-50%) rotate(-2deg); animation: pop 0.7s var(--spring) 0.6s both; }
+  .pix .bar { background: var(--yel); border-bottom: 3px solid var(--ink); padding: 4px 8px; font-size: 10px; display: flex; justify-content: space-between; letter-spacing: 0.06em; }
+  .pix .msg { padding: 10px 10px 12px; font-size: 13px; line-height: 1.35; text-align: center; display: block; }
+
+  /* tentang */
+  #tentang { padding-block: clamp(4rem, 9vw, 8rem) clamp(3rem, 6vw, 5rem); }
+  #tentang .wrap { display: grid; grid-template-columns: 8fr 4fr; gap: clamp(1.5rem, 5vw, 5rem); align-items: end; }
+  .lab { font: 800 12px "Montserrat", sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cer); margin-bottom: 18px; }
+  .stmt { font: 800 clamp(1.9rem, 4.6vw, 3.9rem) / 1.12 "Montserrat", sans-serif; letter-spacing: -0.02em; }
+  .stmt span { color: var(--muted); opacity: 0.7; }
+  .aside { color: var(--muted); max-width: 30ch; }
+  .aside b { display: block; color: var(--text); font-family: "Montserrat", sans-serif; }
+
+  /* fakultas */
+  #fakultas { background: var(--ink); color: #fff; padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  #fakultas h2 { font-size: clamp(2rem, 4.6vw, 3.6rem); margin-bottom: 28px; }
+  #fakultas h2 em { font-style: normal; color: var(--yel); }
+  .strip { display: flex; gap: 8px; min-height: 330px; }
+  .strip li { list-style: none; border-radius: 22px 22px 6px 6px; padding: 18px 12px; display: flex; align-items: flex-end; justify-content: center; font: 800 clamp(0.95rem, 1.5vw, 1.25rem) "Montserrat", sans-serif; letter-spacing: -0.01em; writing-mode: vertical-rl; transform: rotate(180deg); flex: 1 1 0; min-width: 0; }
+  .strip li:nth-child(4n+1) { background: var(--sky); color: var(--ink); }
+  .strip li:nth-child(4n+2) { background: var(--sky25); color: var(--ink); }
+  .strip li:nth-child(4n+3) { background: var(--yel); color: var(--ink); }
+  .strip li:nth-child(4n) { background: var(--cer); color: #fff; }
+  .strip li:nth-child(1) { flex-grow: 2.2; }
+  .strip li:nth-child(5) { flex-grow: 1.5; }
+  .strip li:nth-child(8) { flex-grow: 1.8; }
+  .note { margin-top: 18px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.82); max-width: 62ch; }
+
+  /* kentingan */
+  #kentingan { background: var(--cer); color: #fff; padding-block: clamp(2.5rem, 5vw, 4rem) 0; position: relative; overflow: hidden; }
+  #kentingan .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: end; }
+  #kentingan h2 { font-size: clamp(3rem, 9vw, 8rem); line-height: 0.9; margin-bottom: 1.2rem; }
+  address { font-style: normal; max-width: 30ch; margin-bottom: 1.6rem; }
+  address b { display: block; font-family: "Montserrat", sans-serif; }
+  .slot { margin: 0 0 clamp(2rem, 5vw, 4rem); aspect-ratio: 4 / 3; border: 3px dashed rgba(255, 255, 255, 0.7); display: grid; place-items: center; text-align: center; padding: 1rem; font-size: 0.92rem; }
+  .peek { display: block; width: min(300px, 50vw); margin: 0 0 0 auto; transform: translateY(14%); }
+
+  /* belum */
+  #belum { background: var(--band); padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(3rem, 6vw, 5rem); }
+  #belum h2 { font-size: clamp(2rem, 4.6vw, 3.6rem); margin-bottom: 8px; }
+  #belum .lead { color: var(--muted); max-width: 46ch; margin-bottom: 30px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px 26px; }
+  .cards .pix { position: static; width: auto; transform: none; animation: none; }
+  .cards .pix:nth-child(even) { transform: translateY(14px); }
+  .cards .pix:nth-child(3n) { transform: translateY(-6px) rotate(1deg); }
+  .cards .bar { background: var(--sky); }
+  .cards .msg { text-align: left; font-size: 12px; padding: 14px; min-height: 96px; }
+  .cards .msg b { display: block; font-size: 13px; margin-bottom: 8px; }
+
+  footer { background: var(--ink); color: #fff; padding-block: 28px; font-size: 0.86rem; }
+  footer p { max-width: 80ch; opacity: 0.88; border-left: 3px solid var(--yel); padding-left: 12px; }
+
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes sway { 0%, 100% { transform: translateX(-50%) rotate(-1.2deg); } 50% { transform: translateX(-50%) rotate(1.2deg); } }
+  @keyframes tw { 0%, 100% { transform: scale(0.7) rotate(0); opacity: 0.6; } 50% { transform: scale(1.15) rotate(25deg); opacity: 1; } }
+  @keyframes pop { from { opacity: 0; transform: translateX(-50%) rotate(-2deg) translateY(24px) scale(0.9); } to { opacity: 1; transform: translateX(-50%) rotate(-2deg); } }
+
+  @media (min-width: 900px) {
+    .top nav { display: flex; }
+    .hero-grid { grid-template-columns: 1.12fr 0.88fr; min-height: calc(min(100svh, 900px) - 76px); }
+    .hero-copy { padding-bottom: clamp(40px, 10vh, 110px); }
+    .stage { width: min(560px, 40vw); margin-right: -2vw; }
+  }
+  @media (max-width: 899px) {
+    #tentang .wrap, #kentingan .wrap { grid-template-columns: 1fr; }
+    .cards { grid-template-columns: 1fr 1fr; }
+    .strip { flex-direction: column; min-height: 0; }
+    .strip li { writing-mode: horizontal-tb; transform: none; border-radius: 14px; padding: 14px 18px; justify-content: flex-start; flex: none; }
+    .peek { margin-top: 10px; }
+  }
+  @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } .cards .pix { transform: none !important; } }
+  @media (prefers-reduced-motion: reduce) {
+    .swirl path { animation: none; stroke-dashoffset: 0; }
+    .wk, .spark, .pix { animation: none; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#tentang">Lewati ke konten</a>
+<header class="top"><div class="in">
+  <a class="brand" href="#beranda">Universitas Sebelas Maret<small>Surakarta, Jawa Tengah</small></a>
+  <nav aria-label="Navigasi utama"><a href="#tentang">Tentang</a><a href="#fakultas">Fakultas</a><a href="#kentingan">Kentingan</a><a href="#belum">Belum ada data</a></nav>
+</div></header>
+
+<section class="hero" id="beranda">
+  <svg class="swirl" viewBox="0 0 400 400" aria-hidden="true"><path pathLength="1" d="__SWIRL__"/></svg>
+  <svg class="lattice" aria-hidden="true"><defs><pattern id="lat" width="44" height="44" patternUnits="userSpaceOnUse"><g fill="none" stroke="#fff" stroke-width="1.6"><circle cx="0" cy="0" r="22"/><circle cx="44" cy="0" r="22"/><circle cx="0" cy="44" r="22"/><circle cx="44" cy="44" r="22"/><circle cx="22" cy="22" r="22"/></g></pattern></defs><rect width="100%" height="100%" fill="url(#lat)"/></svg>
+  <div class="wrap"><div class="hero-grid">
+    <div class="hero-copy">
+      <h1>Kuliah di <em>Kentingan,</em> Surakarta.</h1>
+      <p class="sub">Universitas Sebelas Maret berdiri 11 Maret 1976. Kampus utamanya di Kentingan, di sisi timur laut Kota Surakarta.</p>
+      <p class="disc" role="note"><b>Catatan:</b> Halaman ini bukan situs resmi Universitas Sebelas Maret. Ini contoh uji dengan bahasa visual uns.ai.id. Periksa semua informasi di situs resmi.</p>
+      <div class="cta">
+        <a class="btn btn-y" href="https://uns.ac.id" rel="noopener">Buka situs resmi, uns.ac.id <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-ghost" href="#fakultas">Lihat fakultas</a>
+      </div>
+    </div>
+    <div class="stage">
+      <svg class="u" viewBox="0 0 400 470" aria-hidden="true">
+        <defs><pattern id="lat2" width="30" height="30" patternUnits="userSpaceOnUse"><g fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.3"><circle cx="0" cy="0" r="15"/><circle cx="30" cy="0" r="15"/><circle cx="0" cy="30" r="15"/><circle cx="30" cy="30" r="15"/><circle cx="15" cy="15" r="15"/></g></pattern></defs>
+        <path d="M70 -20V290a130 130 0 0 0 260 0V-20" fill="none" stroke="#1FABE1" stroke-width="118"/>
+        <path d="M70 -20V290a130 130 0 0 0 260 0V-20" fill="none" stroke="url(#lat2)" stroke-width="118"/>
+      </svg>
+      <img class="wk" src="data:image/webp;base64,__WK__" alt="Wiku, maskot proyek uns.ai.id, melambaikan tangan">
+      <div class="pix" aria-hidden="true"><div class="bar"><span>WIKU.EXE</span><span>x</span></div><span class="msg">HAI, AKU WIKU.<br>SELAMAT DATANG DI KENTINGAN.</span></div>
+      <span class="spark sp1" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 0c.8 6.3 3.7 9.2 12 12-8.3 2.8-11.2 5.7-12 12-.8-6.3-3.7-9.2-12-12C8.3 9.2 11.2 6.3 12 0z"/></svg></span>
+      <span class="spark sp2" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 0c.8 6.3 3.7 9.2 12 12-8.3 2.8-11.2 5.7-12 12-.8-6.3-3.7-9.2-12-12C8.3 9.2 11.2 6.3 12 0z"/></svg></span>
+    </div>
+  </div></div>
+</section>
+
+<main>
+  <section id="tentang"><div class="wrap">
+    <div>
+      <p class="lab">Tentang</p>
+      <p class="stmt">Berdiri <span>pada</span> 11 Maret 1976 <span>dan berkampus di</span> Kentingan, Surakarta. <span>Selebihnya belum kami tahu dengan pasti.</span></p>
+    </div>
+    <p class="aside"><b>Jujur soal batas.</b>Halaman ini hanya memuat fakta yang diyakini penulisnya. Sisanya ditandai di bagian paling bawah dan menunggu data resmi dari pemilik.</p>
+  </div></section>
+
+  <section id="fakultas"><div class="wrap">
+    <h2>Fakultas <em>yang kami tahu.</em></h2>
+    <ul class="strip">
+      <li>Kedokteran</li><li>Hukum</li><li>Ekonomi dan Bisnis</li><li>Teknik</li><li>Pertanian</li><li>Keguruan dan Ilmu Pendidikan</li><li>Ilmu Sosial dan Politik</li><li>MIPA</li><li>Ilmu Budaya</li><li>Seni Rupa dan Desain</li>
+    </ul>
+    <p class="note">Daftar ditulis dari pengetahuan umum penulis halaman dan belum diverifikasi, jadi bisa kurang atau sudah berubah. [ISI: daftar resmi beserta program studi dari pemilik]</p>
+  </div></section>
+
+  <section id="kentingan"><div class="wrap">
+    <div>
+      <h2>Kentingan.</h2>
+      <address><b>Kampus Kentingan</b>Jl. Ir. Sutami No. 36 A, Jebres, Surakarta 57126. Cek ulang alamat di situs resmi.</address>
+      <figure class="slot"><figcaption>[ISI: foto Kampus Kentingan dari lapangan, bukan foto stok]</figcaption></figure>
+    </div>
+    <img class="peek" src="data:image/webp;base64,__PEEK__" alt="Wiku mengintip dari bawah">
+  </div></section>
+
+  <section id="belum"><div class="wrap">
+    <h2>Belum ada datanya.</h2>
+    <p class="lead">Lima hal yang pasti dicari calon mahasiswa, dan belum bisa dijawab halaman ini tanpa sumber resmi.</p>
+    <div class="cards">
+      <div class="pix"><div class="bar"><span>JADWAL.TXT</span><span>x</span></div><span class="msg"><b>PENDAFTARAN</b>[ISI: tanggal buka dan tutup tahun ini]</span></div>
+      <div class="pix"><div class="bar"><span>JALUR.TXT</span><span>x</span></div><span class="msg"><b>JALUR MASUK</b>[ISI: nama jalur dan syarat dari panitia]</span></div>
+      <div class="pix"><div class="bar"><span>BIAYA.TXT</span><span>x</span></div><span class="msg"><b>UKT</b>[ISI: rentang per program, sumber resmi]</span></div>
+      <div class="pix"><div class="bar"><span>KOS.TXT</span><span>x</span></div><span class="msg"><b>ASRAMA DAN KOS</b>[ISI: kapasitas asrama dan kisaran sewa kos]</span></div>
+      <div class="pix"><div class="bar"><span>CERITA.TXT</span><span>x</span></div><span class="msg"><b>CERITA MAHASISWA</b>[ISI: kutipan asli dengan izin, atau tidak ada]</span></div>
+    </div>
+  </div></section>
+</main>
+
+<footer><div class="wrap"><p>Halaman konsep tidak resmi untuk uji skill web-unslop, tanpa hubungan dengan Universitas Sebelas Maret. Logo resmi tidak ditiru. Fakta yang tertulis: berdiri 11 Maret 1976, Surakarta, kampus Kentingan. Maskot Wiku, token warna, dan font berasal dari uns.ai.id milik pemilik halaman. Montserrat, Lato, dan Silkscreen berlisensi SIL OFL 1.1.</p></div></footer>
+</body>
+</html>

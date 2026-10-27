@@ -142,6 +142,13 @@ def main():
         assert not fails, f"{name} tidak boleh FAIL: " + "; ".join(map(str, fails))
         assert "skeleton-landing" in rules(ex), f"{name} harus ditandai kerangka bawaan"
 
+    uns = ROOT / "examples" / "halaman-uns" / "index.html"
+    assert uns.exists(), "jalankan examples/halaman-uns/build.py dulu"
+    ur = lint.check_file(str(uns))
+    assert not [f for f in ur if f.level == lint.FAIL], "halaman-uns tidak boleh FAIL"
+    assert {f.rule for f in ur} <= {"placeholder-left"}, "halaman-uns hanya boleh menyisakan placeholder-left: " + str({f.rule for f in ur})
+    assert "skeleton-landing" not in {f.rule for f in ur}
+
     own = []
     for f in lint.iter_files([str(ROOT)]):
         if "/tests/" in f:
