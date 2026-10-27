@@ -19,8 +19,6 @@ Halaman hasil AI punya sidik jari yang sama: Inter atau Space Grotesk, gradien u
 | `vendor/impeccable/` | Salinan utuh Impeccable v2.1.1: SKILL.md, 9 referensi, 16 perintah perbaikan. Apache-2.0 |
 | `hooks/web-unslop-gate.py` | Hook PreToolUse yang menolak penulisan halaman yang gagal linter |
 | `scripts/unslop_lint.py` | Linter tanpa dependensi, Python 3 saja |
-| `examples/halaman-uns/` | Contoh teladan: halaman Universitas Sebelas Maret (tidak resmi) dengan bahasa visual uns.ai.id, aset milik pemilik, data kosong ditandai `[ISI]` |
-| `examples/lolos-linter/` | Dua halaman yang lolos linter tapi tetap terbaca AI. Contoh buruk yang disimpan sebagai peringatan, lengkap dengan alasannya |
 | `tests/test_lint.py` | Tes yang membuktikan tiap rule benar-benar mendeteksi |
 
 ## Pasang
@@ -87,7 +85,7 @@ Variabel opsional: `WEB_UNSLOP_STRICT=1` (WARN ikut memblokir) dan `WEB_UNSLOP_R
 
 ## Batasan yang perlu diketahui
 
-- **Contoh teladan hanya satu, dan punya syarat.** `examples/halaman-uns/` memakai maskot, warna, dan font dari uns.ai.id milik pemilik repo, jadi kemiripannya dengan situs itu datang dari aset yang dipinjam, bukan dari skill. Skill tidak bisa menciptakan maskot atau foto. Dua halaman di `examples/lolos-linter/` dibuat tanpa aset itu, lolos tanpa FAIL, dan tetap terbaca AI. Keduanya dipertahankan sebagai pembanding. Kalau kamu membangun halaman dari brief dan aset nyata milikmu sendiri, kirim sebagai PR.
+- Skill tidak bisa menciptakan maskot atau foto.
 - Lolos linter tidak menjamin halaman bagus. Linter tidak melihat komposisi, ritme, atau kualitas foto.
 - Daftar font refleks dan frasa terlarang bersifat berbasis pengamatan dan akan menua. Tambahkan lewat PR.
 - Rule berbasis regex dan struktur HTML saudara. Komponen yang dirender lewat JavaScript tidak terjangkau deteksi kartu identik.
@@ -111,7 +109,6 @@ Teks di luar `vendor/` ditulis ulang, tetapi gagasannya berutang pada karya terb
 
 - [impeccable](https://github.com/pbakaus/impeccable) (pbakaus): disertakan utuh di `vendor/`. Daftar larangan CSS, uji slop, dan prosedur memilih font di bagian utama berangkat dari sini.
 - [taste-skill](https://github.com/Leonxlnx/taste-skill): inferensi brief dan tiga dial.
-- [anti-slop-writing](https://github.com/adenaufal/anti-slop-writing): larangan kosakata dan tanda pisah.
 - [marketingskills](https://github.com/coreyhaines31/marketingskills): tujuh sapuan copy editing.
 
 Repo pendamping untuk teks non-halaman: [unslop](https://github.com/shafry00/unslop).
@@ -119,9 +116,5 @@ Repo pendamping untuk teks non-halaman: [unslop](https://github.com/shafry00/uns
 ## Lisensi
 
 MIT untuk semua kecuali dua bagian:
-
-- `vendor/impeccable/` adalah karya Paul Bakaus, Apache-2.0, disalin tanpa perubahan. Lisensi dan pemberitahuan ada di folder itu.
-- Font contoh di `examples/*/fonts/` berlisensi SIL OFL 1.1.
-- Gambar Wiku di `examples/halaman-uns/img/` adalah maskot proyek uns.ai.id milik pemilik repo. Bukan maskot atau logo resmi Universitas Sebelas Maret, dan tidak dilisensikan untuk dipakai ulang tanpa izin pemilik.
 
 Library warna di `references/palette-library.md` menyebut sumber swatchnya.
