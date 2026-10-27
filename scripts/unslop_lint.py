@@ -9,7 +9,8 @@ usage:
 
 exit code: 0 clean, 1 at least one FAIL (or any WARN with --strict), 2 usage error.
 
-Suppress one line with the token `unslop-ok` anywhere on that line.
+Suppress one line with the token `unslop-ok` on that line, or a whole rule for a file with
+`unslop-allow: rule-a, rule-b` in a comment (brand decisions, say why in the evidence comment).
 In .md/.txt files, inline code spans and fenced code blocks are skipped by the
 phrase rules, so docs can quote banned phrases in backticks.
 """
@@ -227,6 +228,8 @@ def check_file(path):
 def check_text(path, raw):
     """Lint `raw` as if it lived at `path` (extension picks the rule set)."""
     ext = os.path.splitext(path)[1].lower()
+    # inline base64 assets (fonts, images) are noise to every rule and make regexes crawl
+    raw = re.sub(r"data:[^\"')\s]{200,}", "data:", raw)
     F = []
     is_code = ext in CODE_EXT
     is_html = ext in HTML_EXT
@@ -311,13 +314,13 @@ def check_text(path, raw):
         for m in re.finditer(r"border-(?:left|right|inline-start|inline-end)\s*:\s*(\d+(?:\.\d+)?)(px|rem|em)", low):
             w = float(m.group(1)) * (16 if m.group(2) != "px" else 1)
             if w > 1:
-                add(FAIL, "side-stripe", idx, "garis aksen tebal di sisi kiri/kanan kartu. Pakai border penuh, tint latar, atau angka/ikon di depan.")
+                add(WARN, "side-stripe", idx, "garis aksen tebal di sisi kiri/kanan kartu. Pakai border penuh, tint latar, atau angka/ikon di depan.")
         for m in re.finditer(r"border-(?:left|right|inline-start|inline-end)-width\s*:\s*(\d+(?:\.\d+)?)px", low):
             if float(m.group(1)) > 1:
-                add(FAIL, "side-stripe", idx, "garis aksen tebal di sisi kiri/kanan. Ganti struktur elemen.")
+                add(WARN, "side-stripe", idx, "garis aksen tebal di sisi kiri/kanan. Ganti struktur elemen.")
 
     for m in re.finditer(r"(?<![\w:-])border-[lr]-(?:2|4|8)\b(?!/)", raw):
-        add(FAIL, "side-stripe", m.start(), "Tailwind border-l/r tebal sebagai garis aksen. Ganti struktur elemen.")
+        add(WARN, "side-stripe", m.start(), "Tailwind border-l/r tebal sebagai garis aksen. Ganti struktur elemen.")
 
     # class attr checks (Tailwind and friends)
     for m in re.finditer(r'class(?:Name)?\s*=\s*["\'{`]([^"\'`}]*)', raw):
@@ -381,7 +384,7 @@ def check_text(path, raw):
         first = stack[0]
         fams.append(first)
         if first in REFLEX_FONTS_FAIL:
-            add(FAIL, "reflex-font", m.start(), f"font refleks `{first}` di posisi pertama. Pilih lewat prosedur di references/typography.md.")
+            add(WARN, "reflex-font", m.start(), f"font refleks `{first}` di posisi pertama. Pilih lewat prosedur di references/typography.md.")
         elif first in REFLEX_FONTS_WARN:
             add(WARN, "reflex-font-2", m.start(), f"`{first}` adalah pilihan gelombang kedua yang juga sering muncul. Pastikan dipilih dari subjek.")
         elif first in SYSTEM_FONTS:
@@ -434,8 +437,9 @@ def check_text(path, raw):
         secs = re.findall(r"<section\b([^>]*)>", raw, flags=re.I)
         if len(secs) >= 4:
             ids = [i for sec in secs for i in re.findall(r"""\bid\s*=\s*["']([\w-]+)""", sec)]
+            css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", raw, flags=re.S | re.I))
             pad = [(sel.strip().splitlines()[-1].strip() if sel.strip() else "", body)
-                   for sel, body in re.findall(r"([^{}]+)\{([^{}]*)\}", raw) if re.search(r"padding(?:-block|-top|-bottom)?\s*:", body)]
+                   for sel, body in re.findall(r"([^{}]+)\{([^{}]*)\}", css) if re.search(r"padding(?:-block|-top|-bottom)?\s*:", body)]
             generic = [sel for sel, _ in pad if re.fullmatch(r"(?:main\s*>\s*)?section|\.section", sel)]
             over = [sel for sel, _ in pad if sel not in generic and ("section" in sel or any("#" + i in sel for i in ids))]
             if generic and len(over) < 2:
@@ -483,16 +487,26 @@ def _cards(root, F, path):
         for (tag, cls), members in groups.items():
             if len(members) >= 3 and all(is_card(m) for m in members):
                 if all(has_icon(m) for m in members):
-                    F.append(Finding(path, parent.line, FAIL, "identical-cards", f"{len(members)} kartu identik (ikon + judul + teks). Pakai daftar bernomor, tabel, atau kolom editorial dengan ritme berbeda."))
+                    F.append(Finding(path, parent.line, WARN, "identical-cards", f"{len(members)} kartu identik (ikon + judul + teks). Pakai daftar bernomor, tabel, atau kolom editorial dengan ritme berbeda."))
                 else:
                     F.append(Finding(path, parent.line, WARN, "identical-cards-plain", f"{len(members)} blok identik (judul + teks). Cek apakah isinya memang sejenis, kalau tidak variasikan ukuran dan bentuk."))
                 break
 
 
+def _allowed(raw):
+    """File-level `unslop-allow: rule, rule` in any comment: a brand decision, not a loophole.
+    Write the reason in the evidence comment."""
+    m = re.search(r"unslop-allow:\s*([a-z0-9][a-z0-9,\s-]*)", raw, flags=re.I)
+    return {x.strip(" -").lower() for x in m.group(1).replace("\n", " ").split(",") if x.strip(" -")} if m else set()
+
+
 def _suppress(F, raw):
     lines = raw.splitlines()
+    allow = _allowed(raw)
     out = []
     for f in F:
+        if f.rule in allow:
+            continue
         if 1 <= f.line <= len(lines) and "unslop-ok" in lines[f.line - 1]:
             continue
         out.append(f)

@@ -118,6 +118,11 @@ def main():
         need = {"heading-cadence", "accent-last-word", "hard-shadow", "uniform-section-padding", "skeleton-landing", "placeholder-left"}
         assert need <= sk, f"skeleton: {sorted(need - sk)}"
 
+        # file-level allow
+        (p / "allow.html").write_text("<!-- unslop-allow: side-stripe, transition-all -->" + BAD_TAILWIND, encoding="utf-8")
+        al = rules(p / "allow.html")
+        assert "side-stripe" not in al and "transition-all" not in al and "gradient-text" in al, al
+
         # suppression token
         (p / "ok.html").write_text(BAD_TAILWIND.replace('class="border-l-4', 'class="border-l-4 unslop-ok"'), encoding="utf-8")
         assert "side-stripe" not in rules(p / "ok.html")

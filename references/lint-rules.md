@@ -2,7 +2,11 @@
 
 `python3 scripts/unslop_lint.py PATH...`. FAIL membuat kode keluar 1. WARN hanya melaporkan, kecuali `--strict`.
 
-Folder `vendor/` dilewati saat memindai direktori.
+Folder `vendor/` dilewati saat memindai direktori. Data URI base64 dibuang sebelum pemeriksaan.
+
+**Izin per file:** komentar `unslop-allow: rule-a, rule-b` mematikan rule itu untuk satu file. Pakai untuk keputusan merek (font merek, sistem bayangan, deretan kartu yang memang setara), dan tulis alasannya di komentar bukti. Per baris tetap `unslop-ok`.
+
+Pada sumber uns.ai.id, linter versi sebelumnya memberi 47 FAIL (Montserrat, garis aksen, kartu setara). Setelah ketiga rule menjadi WARN, hasilnya 0 FAIL dan 53 WARN. Rule absolut yang menjatuhkan situs bagus adalah rule yang salah.
 
 Ekstensi yang diperiksa penuh: `.html .htm .css .jsx .tsx .js .ts .vue .svelte .astro`. Teks saja: `.md .txt`. Aturan struktur (`identical-cards`, `html-lang`, `viewport`, `img-alt`, dan sejenisnya) hanya berjalan pada `.html` dan `.htm`.
 
@@ -20,8 +24,8 @@ Ekstensi yang diperiksa penuh: `.html .htm .css .jsx .tsx .js .ts .vue .svelte .
 | `exclamation` | WARN | Tiga tanda seru atau lebih |
 | `gradient-text` | FAIL | `background-clip: text` dengan gradien, atau `bg-clip-text text-transparent` |
 | `ai-gradient` | FAIL | Gradien yang memuat hue ungu bersama biru, cyan, atau pink (CSS dan Tailwind) |
-| `side-stripe` | FAIL | `border-left` atau `border-right` lebih dari 1px, `border-l-2/4/8` |
-| `reflex-font` | FAIL | Font refleks gelombang pertama di posisi pertama `font-family` |
+| `side-stripe` | WARN | `border-left` atau `border-right` lebih dari 1px, `border-l-2/4/8` |
+| `reflex-font` | WARN | Font refleks gelombang pertama di posisi pertama `font-family` |
 | `reflex-font-2` | WARN | Font refleks gelombang kedua |
 | `system-font` | WARN | Font sistem di posisi pertama |
 | `single-family` | WARN | Hanya satu keluarga font bernama |
@@ -42,7 +46,7 @@ Ekstensi yang diperiksa penuh: `.html .htm .css .jsx .tsx .js .ts .vue .svelte .
 | `hard-shadow` | WARN | `box-shadow` offset bukan nol dengan blur 0 |
 | `uniform-section-padding` | WARN | Empat section atau lebih, hanya satu aturan padding generik, kurang dari dua override |
 | `skeleton-landing` | WARN | h1, FAQ accordion tiga atau lebih, dan tabel atau daftar bernomor tiga item |
-| `identical-cards` | FAIL | Tiga saudara identik berisi ikon, judul, dan paragraf |
+| `identical-cards` | WARN | Tiga saudara identik berisi ikon, judul, dan paragraf |
 | `identical-cards-plain` | WARN | Tiga saudara identik berisi judul dan paragraf |
 | `html-lang` | FAIL | `<html>` tanpa `lang` |
 | `viewport` | FAIL | Tidak ada meta viewport |

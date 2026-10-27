@@ -14,6 +14,7 @@ Halaman hasil AI punya sidik jari yang sama: Inter atau Space Grotesk, gradien u
 | `references/process.md` | Template brief, wireframe, komentar bukti, perintah screenshot, uji slop |
 | `references/research.md` | Riset komponen (21st.dev dan koleksi terbuka), gerak, dan sembilan lensa komposisi |
 | `references/palette-library.md` | Swatch per keluarga hue sebagai opsi warna kedua |
+| `references/benchmark.md` | Dua situs rujukan yang tidak terbaca AI dan tujuh hal yang membuatnya begitu |
 | `references/impeccable-map.md` | Cara Impeccable dan web-unslop dipakai bersama, dan siapa yang menang saat bertabrakan |
 | `vendor/impeccable/` | Salinan utuh Impeccable v2.1.1: SKILL.md, 9 referensi, 16 perintah perbaikan. Apache-2.0 |
 | `hooks/web-unslop-gate.py` | Hook PreToolUse yang menolak penulisan halaman yang gagal linter |

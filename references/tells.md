@@ -50,10 +50,10 @@ Frasa yang dilarang ditulis di dalam backtick supaya linter tidak menandai dokum
 | Pil "Baru" atau "Beta" di atas judul hero | Lencana pengisi | Hapus | - |
 | Padding section sama di semua bagian | Ritme otomatis | Ritme yang bervariasi | `uniform-section-padding` |
 | Kerangka hero + tabel atau langkah + FAQ + penutup | Urutan bawaan, tidak berasal dari isi | Tes kerangka di references/layout.md | `skeleton-landing` |
-| Tombol berbayangan keras tanpa blur | Gaya neo-brutalist yang menyebar lewat template | Tombol datar atau bayangan yang punya sumber cahaya | `hard-shadow` |
+| Satu tombol berbayangan keras, komponen lain tidak | Gaya neo-brutalist yang ditempel ke satu elemen | Jadikan bahasa sistem di semua komponen, atau hapus. UNS dan AFS memakainya di mana-mana dan tidak terbaca AI (references/benchmark.md) | `hard-shadow` |
 | Angka 1, 2, 3 raksasa berwarna aksen dan digeser | Langkah bernomor versi dekoratif | Nomor kecil sejajar teks, atau urutan yang tampil dari isi | - |
 | Ornamen SVG besar sebagai gimmick (jam, cap, kompas) di pojok hero | Dekorasi yang menggantikan isi | Foto atau gambar nyata dari subjek | - |
-| Hero satu warna penuh, teks krem, satu CTA terang | Kombinasi hero paling umum | Komposisi yang berasal dari subjek | - |
+| Hero satu warna penuh tanpa aset milik subjek | Kombinasi hero paling umum | Warna penuh sah bila ada aset yang hanya dimiliki subjek di atasnya (maskot, foto, produk) | - |
 | Keterangan kecil abu-abu di bawah semua baris dan gambar | Pengisi hierarki | Keterangan hanya bila perlu | - |
 | Semua elemen berukuran sedang | Tidak ada pusat perhatian | Satu elemen diperbesar jadi pusat | - |
 

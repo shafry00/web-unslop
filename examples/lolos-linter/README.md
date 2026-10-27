@@ -12,8 +12,8 @@ Halaman: `bengkel-jam/` (bengkel jam fiktif) dan `stempel-rudi/` (toko stempel f
    - kata terakhir judul diwarnai aksen (bengkel jam)
    - angka 1, 2, 3 besar berwarna yang digeser (bengkel jam)
    - ornamen SVG sebagai gimmick: muka jam, cap miring raksasa
-   - hero satu warna penuh dengan teks krem dan tombol terang
-   - tombol berbayangan keras (toko stempel)
+   - hero satu warna penuh, tanpa aset yang hanya dimiliki subjeknya
+   - satu tombol berbayangan keras yang tidak menjadi bahasa sistem (toko stempel)
    - keterangan kecil abu-abu di mana-mana
 4. **Spasi antar section identik.**
 5. **Isinya karangan.** Harga, durasi, dan syarat tampak spesifik tapi saya yang membuatnya. Tidak ada foto, orang, atau data nyata. Itu spesifik palsu.
@@ -27,6 +27,10 @@ python3 scripts/unslop_lint.py examples/lolos-linter/
 ```
 
 Tell lain di daftar nomor 3 dan 5 masih hanya bisa dinilai manusia. Itu batas linter, bukan kebetulan.
+
+## Koreksi terhadap analisis awal
+
+Analisis awal menyebut bayangan keras dan hero satu warna sebagai tell. Dua situs rujukan pemilik (uns.ai.id, afs.larutmalam.id) memakai keduanya dan tidak terbaca AI. Perbedaan sebenarnya: kedua situs itu punya aset yang hanya dimiliki subjeknya (maskot, orang nyata, produk) dan menjalankan satu sistem sampai ke detail. Dua halaman di sini hanya punya ornamen SVG buatan dan fakta karangan. Rinciannya di `references/benchmark.md`.
 
 ## Pelajaran
 

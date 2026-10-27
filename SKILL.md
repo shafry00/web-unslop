@@ -7,7 +7,9 @@ description: Bikin atau review tampilan web (landing page, dashboard, komponen, 
 
 Hasil AI terbaca dari pilihan default yang sama di setiap proyek: font yang sama, gradien yang sama, kartu tiga kolom yang sama, kalimat pembuka yang sama. Skill ini memaksa satu hal: tiap keputusan visual dan tiap kalimat harus punya alasan yang berasal dari subjek halamannya, bukan dari kebiasaan.
 
-Dua aturan di bawah ini berlaku di setiap langkah.
+Tiga aturan di bawah ini berlaku di setiap langkah.
+
+0. **Teknik tidak membuat slop, ketiadaan kepemilikan yang membuatnya.** Bayangan keras, hero satu warna, atau kartu berjajar bisa menjadi desain yang bagus bila halaman itu punya aset, sistem, dan keputusan yang hanya dimiliki subjeknya. Tolok ukurnya dua situs nyata di `references/benchmark.md`.
 
 1. **Jangan tukar satu refleks dengan refleks lain.** Dilarang memakai Inter lalu pindah ke Space Grotesk, atau lepas dari ungu lalu jatuh ke teal di latar gelap. Kalau pilihan akhirmu sama dengan tebakan pertamamu, ulang.
 2. **Alasan harus bisa ditunjuk ke subjek.** "Karena terlihat modern" bukan alasan. "Karena nota bengkel ini dicetak dengan mesin ketik slab" adalah alasan.
@@ -68,7 +70,7 @@ Buat dua atau tiga variasi struktur sebelum memilih. Struktur pertama yang terli
 Aturan inti, detail di `references/typography.md`.
 
 - Pilih font dengan menanyakan: benda fisik apa yang dicetak dengan huruf ini? Cari di katalog (Google Fonts, Fontshare, Velvetyne, Future Fonts) dengan benda itu di kepala.
-- Tolak font di daftar refleks (Inter, Roboto, Open Sans, Arial, Space Grotesk, Poppins, Montserrat, Playfair Display, DM Sans, dan gelombang keduanya). Linter menandai semuanya.
+- Font di daftar refleks (Inter, Roboto, Open Sans, Arial, Space Grotesk, Poppins, Montserrat, Playfair Display, DM Sans, dan gelombang keduanya) ditandai linter sebagai WARN. Boleh dipakai bila itu font merek yang sudah ada atau hasil prosedur di `references/typography.md`. Tulis alasannya dan izinkan di file dengan `unslop-allow: reflex-font`.
 - Pasangkan satu display dengan satu body. Maksimal tiga keluarga.
 - Skala ukuran punya rasio minimal 1.25 antar tingkat. Judul pakai `clamp()`.
 - Panjang baris 60 sampai 72 karakter (`max-width: 62ch`).
@@ -85,6 +87,10 @@ Detail di `references/color.md`.
 - Hindari kombinasi yang paling sering dimuntahkan model: gradien ungu ke biru, latar gelap dengan aksen teal atau emerald, glow neon, krem hangat dengan terakota yang dipaksakan ke subjek yang tidak berhubungan.
 - Teks isi minimal kontras 4.5:1, teks besar 3:1. Hitung, jangan menebak.
 
+### 4b. Aset milik subjek
+
+Sebelum menggambar apa pun, tulis aset apa yang hanya dimiliki subjek ini: maskot, foto orang dan tempat, produk asli, data, tulisan tangan. Aset itulah yang membuat halaman tidak bisa tertukar. Kalau belum ada, minta ke pemilik atau tulis `[ISI: foto ...]`. Jangan membuat ornamen SVG pengganti. Lalu pilih satu aturan bentuk (bayangan, radius, garis) dan jalankan di semua komponen, bukan di satu tombol saja.
+
 ### 5. Layout dan komposisi
 
 Detail di `references/layout.md`.
@@ -93,7 +99,7 @@ Detail di `references/layout.md`.
 - Rata kiri dengan komposisi asimetris. Rata tengah hanya untuk judul pendek yang memang berdiri sendiri.
 - Kartu bukan wadah default. Tabel, daftar bernomor, daftar definisi, dan kolom editorial sering lebih jelas. Kalau tiga blok isinya setara, jangan buat ketiganya identik.
 - Ritme spasi berubah antar section. Padding yang sama di semua section terbaca otomatis.
-- Dilarang: garis aksen tebal di sisi kartu, kartu di dalam kartu, teks bergradien, ikon besar berpojok bulat di atas tiap judul, pola "angka besar + label kecil + gradien" untuk metrik.
+- Dilarang: kartu di dalam kartu, teks bergradien, ikon besar berpojok bulat di atas tiap judul, pola "angka besar + label kecil + gradien" untuk metrik. Garis aksen tebal di sisi kartu dan deretan kartu setara adalah WARN, bukan larangan: boleh bila bagian dari sistem merek.
 
 ### 6. Gerak
 
@@ -130,7 +136,7 @@ Detail dan contoh sebelum-sesudah di `references/copy.md`.
 
 Jalankan berurutan. Jangan menyatakan selesai sebelum ketiganya bersih.
 
-1. **Linter:** `python3 scripts/unslop_lint.py path/ke/halaman.html`. Perbaiki semua FAIL. Baca tiap WARN dan putuskan sadar, bukan reflek menekan. Untuk menegakkannya otomatis, pasang `hooks/web-unslop-gate.py` sebagai hook PreToolUse (lihat README).
+1. **Linter:** `python3 scripts/unslop_lint.py path/ke/halaman.html`. Perbaiki semua FAIL. Baca tiap WARN dan putuskan sadar. Keputusan merek yang disengaja diizinkan per file dengan `<!-- unslop-allow: rule-a, rule-b -->`, alasannya ditulis di komentar bukti. Untuk menegakkannya otomatis, pasang `hooks/web-unslop-gate.py` sebagai hook PreToolUse (lihat README).
 2. **Screenshot nyata**, desktop dan lebar sempit. Perintahnya ada di `references/process.md`. Cari teks terpotong, elemen menumpuk, spasi kata yang hilang, dan karakter non-ASCII yang rusak.
 3. **Uji slop, tertulis.** Jawab enam pertanyaan di `references/process.md` satu per satu di laporan, lengkap dengan bukti dari halaman. Yang paling sering gagal: (a) apakah halaman ini bisa tertukar dengan halaman subjek lain hanya dengan mengganti teks, (b) apakah ada angka atau klaim yang saya karang, (c) apakah semua judul dan semua jarak antar section berirama sama. Jawaban "sudah" tanpa bukti dianggap gagal.
 
@@ -169,6 +175,7 @@ Peta lengkap, cara membaca teks Inggrisnya, dan aturan siapa yang menang saat be
 | `references/process.md` | Template brief, wireframe, screenshot, komentar bukti. |
 | `references/research.md` | Riset komponen, gerak, dan komposisi sebelum merancang. |
 | `references/palette-library.md` | Swatch siap pakai per keluarga hue, opsi kedua untuk warna. |
+| `references/benchmark.md` | Dua situs rujukan yang tidak terbaca AI dan apa yang membuatnya begitu. Baca sebelum langkah 1. |
 | `references/impeccable-map.md` | Cara Impeccable dan web-unslop saling melengkapi. |
 | `vendor/impeccable/` | Salinan utuh Impeccable v2.1.1: SKILL.md, 9 referensi, 16 perintah. Apache-2.0. |
 | `hooks/web-unslop-gate.py` | Hook yang menolak penulisan halaman yang gagal linter. |
