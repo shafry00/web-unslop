@@ -44,10 +44,11 @@ Lewati wireframe untuk komponen tunggal (tombol, kartu). Wajib untuk landing pag
 
 ## Komentar bukti
 
-Taruh di dekat atas file. Isi hanya hal yang benar-benar dikerjakan. Tujuannya agar pemilik bisa mengaudit keputusan tanpa menebak.
+Taruh di dekat atas file. Hook `hooks/web-unslop-gate.py` dengan `WEB_UNSLOP_REQUIRE_MARKER=1` menolak halaman ber-`<h1>` yang komentarnya tidak ada atau kolomnya kosong (component, brief, wireframe, layout, font, warna, gerak, copy). Isi hanya hal yang benar-benar dikerjakan. Tujuannya agar pemilik bisa mengaudit keputusan tanpa menebak.
 
 ```html
 <!-- web-unslop
+component: referensi komponen yang dilihat, atau "tidak ada yang relevan karena X, dibangun manual"
 brief   : pembaca, tindakan, benda fisik (satu baris)
 dial    : VARIANCE 7 / MOTION 4 / DENSITY 4
 wireframe: struktur kasar yang dipikirkan dulu

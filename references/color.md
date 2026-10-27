@@ -14,6 +14,8 @@ Contoh penalaran dari `examples/bengkel-jam`: dominan hijau alas kerja `#26382f`
 
 Bila subjek tidak punya detail fisik (alat internal, dashboard), turunkan dari merek yang sudah ada. Kalau merek pun belum ada, tanyakan satu hal ke pemilik: warna apa yang sudah dipakai di kartu nama, kemasan, atau tanda tokonya?
 
+Alternatif untuk subjek tanpa detail fisik: `references/palette-library.md`.
+
 ## Komitmen
 
 Situs yang terlihat dirancang memilih satu arah dan berkomitmen: biru jenuh penuh, merah berbutir, hitam putih murni, blok warna datar. Jangan mencampur lima warna sedang supaya aman.

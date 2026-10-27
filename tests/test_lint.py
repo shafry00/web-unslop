@@ -57,6 +57,35 @@ def rules(path):
     return {f.rule for f in lint.check_file(path)}
 
 
+def run_hook(payload, env=None):
+    import subprocess
+    e = dict(os.environ)
+    e.update(env or {})
+    r = subprocess.run([sys.executable, str(ROOT / "hooks" / "web-unslop-gate.py")],
+                       input=__import__("json").dumps(payload), capture_output=True, text=True, env=e)
+    return r.returncode, r.stderr
+
+
+def test_hook():
+    code, err = run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/page.html", "content": BAD_HTML}})
+    assert code == 2 and "hype-copy" in err, (code, err)
+    good = (ROOT / "examples" / "bengkel-jam" / "index.html").read_text(encoding="utf-8")
+    assert run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/page.html", "content": good}})[0] == 0
+    assert run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/notes.md", "content": BAD_HTML}})[0] == 0
+    assert run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/vendor/a.html", "content": BAD_HTML}})[0] == 0
+    with tempfile.TemporaryDirectory() as d:
+        f = pathlib.Path(d) / "a.html"
+        f.write_text(good, encoding="utf-8")
+        edit = {"tool_name": "Edit", "tool_input": {"file_path": str(f), "old_string": "Jam mati belum tentu", "new_string": "Solusi terbaik dan seamless"}}
+        code, err = run_hook(edit)
+        assert code == 2 and "seamless" in err, (code, err)
+        # marker gate: page without the evidence comment is refused, the example passes
+        code, err = run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/p.html", "content": good}}, {"WEB_UNSLOP_REQUIRE_MARKER": "1"})
+        assert code == 0, (code, err)
+        code, err = run_hook({"tool_name": "Write", "tool_input": {"file_path": "/x/p.html", "content": "<h1>x</h1>"}}, {"WEB_UNSLOP_REQUIRE_MARKER": "1"})
+        assert code == 2 and "komentar bukti" in err, (code, err)
+
+
 def main():
     with tempfile.TemporaryDirectory() as d:
         p = pathlib.Path(d)
@@ -94,6 +123,7 @@ def main():
             continue
         own += [x for x in lint.check_file(f) if x.level == lint.FAIL]
     assert not own, "repo ini sendiri harus lolos: " + "; ".join(map(str, own))
+    test_hook()
     print("semua tes lolos")
 
 

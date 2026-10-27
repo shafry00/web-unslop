@@ -1,6 +1,6 @@
 # web-unslop
 
-Skill untuk agen AI (Claude Code, Cursor, OpenCode, dan sejenisnya) supaya halaman web yang dihasilkan tidak terbaca sebagai buatan AI. Satu repo berisi alur kerja, katalog tell, dan linter yang bisa dijalankan.
+Skill untuk agen AI (Claude Code, Cursor, OpenCode, dan sejenisnya) supaya halaman web yang dihasilkan tidak terbaca sebagai buatan AI. Satu repo berisi alur kerja, katalog tell, linter dan hook yang bisa dijalankan, riset referensi, library warna, dan salinan utuh Impeccable.
 
 Halaman hasil AI punya sidik jari yang sama: Inter atau Space Grotesk, gradien ungu ke biru, tiga kartu berikon, semua rata tengah, dan kalimat seperti `solusi terbaik` atau `seamless`. Skill ini melarang pilihan-pilihan itu dan, lebih penting, melarang menggantinya dengan refleks berikutnya.
 
@@ -12,6 +12,11 @@ Halaman hasil AI punya sidik jari yang sama: Inter atau Space Grotesk, gradien u
 | `references/tells.md` | Katalog tell lengkap dengan pengganti, per kategori |
 | `references/typography.md` `color.md` `layout.md` `motion.md` `copy.md` | Detail tiap bidang |
 | `references/process.md` | Template brief, wireframe, komentar bukti, perintah screenshot, uji slop |
+| `references/research.md` | Riset komponen (21st.dev dan koleksi terbuka), gerak, dan sembilan lensa komposisi |
+| `references/palette-library.md` | Swatch per keluarga hue sebagai opsi warna kedua |
+| `references/impeccable-map.md` | Cara Impeccable dan web-unslop dipakai bersama, dan siapa yang menang saat bertabrakan |
+| `vendor/impeccable/` | Salinan utuh Impeccable v2.1.1: SKILL.md, 9 referensi, 16 perintah perbaikan. Apache-2.0 |
+| `hooks/web-unslop-gate.py` | Hook PreToolUse yang menolak penulisan halaman yang gagal linter |
 | `scripts/unslop_lint.py` | Linter tanpa dependensi, Python 3 saja |
 | `examples/bengkel-jam/` | Halaman contoh utuh yang lolos linter |
 | `tests/test_lint.py` | Tes yang membuktikan tiap rule benar-benar mendeteksi |
@@ -50,6 +55,25 @@ bad.html:12: FAIL hype-copy: frasa kosong `seamless`. Ganti klaim spesifik (angk
 
 Daftar rule dan batasannya ada di `references/lint-rules.md`.
 
+### Hook penegak (opsional)
+
+Hook menjalankan linter yang sama pada hasil akhir `Write` dan `Edit`, lalu memblokir bila ada FAIL. Tambahkan ke `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [{ "type": "command", "command": "python3 ~/.claude/skills/web-unslop/hooks/web-unslop-gate.py" }]
+      }
+    ]
+  }
+}
+```
+
+Variabel opsional: `WEB_UNSLOP_STRICT=1` (WARN ikut memblokir) dan `WEB_UNSLOP_REQUIRE_MARKER=1` (halaman ber-`<h1>` wajib membawa komentar bukti). Hook tidak berjalan bila hook dimatikan atau mode izin melewatinya.
+
 ## Prinsip
 
 1. **Jangan tukar satu refleks dengan refleks lain.** Daftar font terlarang yang pendek hanya memindahkan refleks ke font berikutnya. Karena itu skill ini memberi prosedur memilih, bukan daftar pilihan.
@@ -76,9 +100,9 @@ Tes memeriksa tiga hal: tiap rule menangkap sampel buruk (sampel ditulis sebagai
 
 ## Sumber ide
 
-Teks di repo ini ditulis ulang, tetapi gagasannya berutang pada karya terbuka berikut:
+Teks di luar `vendor/` ditulis ulang, tetapi gagasannya berutang pada karya terbuka berikut:
 
-- [impeccable](https://github.com/pbakaus/impeccable) (pbakaus): daftar larangan CSS, uji slop, prosedur memilih font.
+- [impeccable](https://github.com/pbakaus/impeccable) (pbakaus): disertakan utuh di `vendor/`. Daftar larangan CSS, uji slop, dan prosedur memilih font di bagian utama berangkat dari sini.
 - [taste-skill](https://github.com/Leonxlnx/taste-skill): inferensi brief dan tiga dial.
 - [anti-slop-writing](https://github.com/adenaufal/anti-slop-writing): larangan kosakata dan tanda pisah.
 - [marketingskills](https://github.com/coreyhaines31/marketingskills): tujuh sapuan copy editing.
@@ -87,4 +111,9 @@ Repo pendamping untuk teks non-halaman: [unslop](https://github.com/shafry00/uns
 
 ## Lisensi
 
-MIT. Font contoh di `examples/bengkel-jam/fonts/` berlisensi SIL OFL 1.1.
+MIT untuk semua kecuali dua bagian:
+
+- `vendor/impeccable/` adalah karya Paul Bakaus, Apache-2.0, disalin tanpa perubahan. Lisensi dan pemberitahuan ada di folder itu.
+- Font contoh di `examples/bengkel-jam/fonts/` berlisensi SIL OFL 1.1.
+
+Library warna di `references/palette-library.md` menyebut sumber swatchnya.

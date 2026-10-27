@@ -27,7 +27,7 @@ Tulis jawaban singkat untuk enam hal sebelum menyentuh kode. Kalau jawabannya ti
 - Tiga halaman atau situs yang disukai pemilik dan alasan spesifiknya.
 - Batasan: bahasa, merek yang sudah ada, tema gelap atau terang, anggaran performa.
 
-Template lengkap ada di `references/process.md`.
+Template lengkap ada di `references/process.md`. Kalau proyek sudah punya `.impeccable.md`, pakai itu sebagai isi brief dan jangan mewawancarai ulang. Untuk wawancara penemuan yang lebih panjang, buka `vendor/impeccable/commands/shape.md`.
 
 ### 1. Arah dan tiga dial
 
@@ -40,6 +40,10 @@ Set tiga angka 1 sampai 10 dan catat alasannya.
 | DENSITY | galeri, lega | kokpit, padat | 4 |
 
 Dashboard dan alat kerja condong ke DENSITY tinggi dan MOTION rendah. Halaman undangan atau portofolio condong ke VARIANCE tinggi. Angka ini menentukan keputusan di langkah berikutnya, jadi jangan diisi asal.
+
+### 1b. Riset referensi
+
+Sebelum merancang, lihat dulu bentuk yang pernah berhasil: komponen sejenis (21st.dev, shadcn/ui, magicui), pola gerak (motion.dev, animate-ui, react-bits), dan komposisi (Dribbble, Awwwards, Behance). Ambil struktur dan interaksinya, tulis ulang untuk proyek ini. Catat di komentar bukti hanya yang benar-benar dilihat. Cara kerja, kuota 21st.dev, dan sembilan lensa komposisi ada di `references/research.md`.
 
 ### 2. Wireframe kasar
 
@@ -72,7 +76,7 @@ Aturan inti, detail di `references/typography.md`.
 Detail di `references/color.md`.
 
 - Satu warna dominan yang berani, satu aksen, sisanya netral yang diberi tint ke hue dominan. Tidak ada `#000` dan `#fff` murni.
-- Turunkan palet dari detail fisik subjek (alas meja kerja, kemasan, kertas, logam), bukan dari mood board generik.
+- Turunkan palet dari detail fisik subjek (alas meja kerja, kemasan, kertas, logam), bukan dari mood board generik. Kalau subjek tidak punya detail fisik, atau pemilik meminta nuansa pastel, ambil empat sampai enam swatch dari `references/palette-library.md`.
 - Pilih tema gelap atau terang dari konteks pembaca. Keduanya bukan default aman.
 - Hindari kombinasi yang paling sering dimuntahkan model: gradien ungu ke biru, latar gelap dengan aksen teal atau emerald, glow neon, krem hangat dengan terakota yang dipaksakan ke subjek yang tidak berhubungan.
 - Teks isi minimal kontras 4.5:1, teks besar 3:1. Hitung, jangan menebak.
@@ -120,11 +124,31 @@ Detail dan contoh sebelum-sesudah di `references/copy.md`.
 
 Jalankan berurutan. Jangan menyatakan selesai sebelum ketiganya bersih.
 
-1. **Linter:** `python3 scripts/unslop_lint.py path/ke/halaman.html`. Perbaiki semua FAIL. Baca tiap WARN dan putuskan sadar, bukan reflek menekan.
+1. **Linter:** `python3 scripts/unslop_lint.py path/ke/halaman.html`. Perbaiki semua FAIL. Baca tiap WARN dan putuskan sadar, bukan reflek menekan. Untuk menegakkannya otomatis, pasang `hooks/web-unslop-gate.py` sebagai hook PreToolUse (lihat README).
 2. **Screenshot nyata**, desktop dan lebar sempit. Perintahnya ada di `references/process.md`. Cari teks terpotong, elemen menumpuk, spasi kata yang hilang, dan karakter non-ASCII yang rusak.
 3. **Uji slop:** bayangkan halaman ini ditunjukkan ke orang yang diberi tahu "ini buatan AI". Kalau mereka langsung percaya, ada tell yang tersisa. Cek ulang katalog di `references/tells.md` bagian per bagian, lalu tanyakan: apakah ada satu elemen yang berani, atau semuanya aman?
 
-Linter hanya menangkap pola mekanis. Lolos linter adalah syarat minimal, bukan bukti bahwa halamannya bagus.
+Linter hanya menangkap pola mekanis. Lolos linter adalah syarat minimal, bukan bukti bahwa halamannya bagus. Untuk penilaian yang lebih dalam dan bersekor, buka `vendor/impeccable/commands/critique.md` dan `audit.md`.
+
+## Perintah perbaikan (dari Impeccable)
+
+Setelah halaman jadi, gejala tertentu punya perintah khusus. Salinan Impeccable v2.1.1 ada di `vendor/impeccable/`.
+
+| Gejala | Buka |
+|---|---|
+| Bland, terlalu aman | `commands/bolder.md` |
+| Terlalu ramai atau keras | `commands/quieter.md`, `commands/distill.md` |
+| Hambar, tanpa kepribadian | `commands/delight.md` |
+| Abu-abu, tanpa warna | `commands/colorize.md` |
+| Spasi dan hierarki lemah | `commands/layout.md` |
+| Font bermasalah | `commands/typeset.md` |
+| Teks UI membingungkan | `commands/clarify.md` |
+| Rusak di layar tertentu | `commands/adapt.md` |
+| Lambat atau patah | `commands/optimize.md` |
+| Pemeriksaan sebelum rilis | `commands/polish.md` |
+| Ingin efek ambisius | `commands/overdrive.md` |
+
+Peta lengkap, cara membaca teks Inggrisnya, dan aturan siapa yang menang saat bertabrakan: `references/impeccable-map.md`.
 
 ## Peta referensi
 
@@ -137,11 +161,16 @@ Linter hanya menangkap pola mekanis. Lolos linter adalah syarat minimal, bukan b
 | `references/motion.md` | Menambah gerak apa pun. |
 | `references/copy.md` | Menulis atau mengedit teks halaman. |
 | `references/process.md` | Template brief, wireframe, screenshot, komentar bukti. |
+| `references/research.md` | Riset komponen, gerak, dan komposisi sebelum merancang. |
+| `references/palette-library.md` | Swatch siap pakai per keluarga hue, opsi kedua untuk warna. |
+| `references/impeccable-map.md` | Cara Impeccable dan web-unslop saling melengkapi. |
+| `vendor/impeccable/` | Salinan utuh Impeccable v2.1.1: SKILL.md, 9 referensi, 16 perintah. Apache-2.0. |
+| `hooks/web-unslop-gate.py` | Hook yang menolak penulisan halaman yang gagal linter. |
 | `references/lint-rules.md` | Arti tiap rule linter dan cara menekannya. |
 | `examples/bengkel-jam/` | Contoh halaman utuh yang lolos linter. |
 
 ## Yang sengaja tidak dilakukan skill ini
 
 - Tidak menyuruh membuat desain "minimalis" sebagai pelarian. Halaman sepi tanpa keputusan juga terbaca otomatis.
-- Tidak memberi daftar font atau palet pilihan. Daftar pilihan hanya melahirkan refleks baru.
+- Tidak memberi daftar font pilihan. Daftar pilihan hanya melahirkan refleks baru. Library swatch ada sebagai opsi kedua dengan batasan yang dijelaskan, bukan sebagai jalan pintas.
 - Tidak menilai selera. Linter mendeteksi pola, penilaian akhir tetap manusia.

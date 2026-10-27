@@ -2,6 +2,8 @@
 
 `python3 scripts/unslop_lint.py PATH...`. FAIL membuat kode keluar 1. WARN hanya melaporkan, kecuali `--strict`.
 
+Folder `vendor/` dilewati saat memindai direktori.
+
 Ekstensi yang diperiksa penuh: `.html .htm .css .jsx .tsx .js .ts .vue .svelte .astro`. Teks saja: `.md .txt`. Aturan struktur (`identical-cards`, `html-lang`, `viewport`, `img-alt`, dan sejenisnya) hanya berjalan pada `.html` dan `.htm`.
 
 | Rule | Level | Yang dicari |
@@ -45,6 +47,14 @@ Ekstensi yang diperiksa penuh: `.html .htm .css .jsx .tsx .js .ts .vue .svelte .
 | `img-alt` | FAIL | `<img>` tanpa `alt` |
 | `focus-style` | WARN | Ada elemen interaktif tanpa gaya fokus |
 | `outline-none` | FAIL | `outline: none` tanpa `:focus-visible` |
+
+## Hook
+
+`hooks/web-unslop-gate.py` menjalankan linter yang sama pada hasil akhir `Write` dan `Edit` (untuk `Edit`, `old_string` diterapkan ke file di disk lebih dulu). Exit 2 memblokir dan mengirim alasannya ke model. File `.html .htm .css .jsx .tsx .vue .svelte .astro` diperiksa. Untuk file selain HTML, rule yang butuh gambaran seluruh halaman (`reduced-motion`, `default-easing`, `single-family`, `too-many-families`, `cream-terracotta`, `dark-teal`, `focus-style`) dilewati. Folder `vendor/` dan `node_modules/` dilewati.
+
+Variabel lingkungan: `WEB_UNSLOP_STRICT=1` membuat WARN ikut memblokir. `WEB_UNSLOP_REQUIRE_MARKER=1` mewajibkan komentar bukti pada halaman ber-`<h1>`.
+
+Batasan hook: hanya berjalan bila hook aktif. Mematikan semua hook, atau mode izin yang melewati hook, menonaktifkannya tanpa pemberitahuan. Isi komentar bukti tetap tidak bisa diverifikasi.
 
 ## Batasan
 

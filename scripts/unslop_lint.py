@@ -24,7 +24,7 @@ from html.parser import HTMLParser
 CODE_EXT = {".html", ".htm", ".css", ".jsx", ".tsx", ".js", ".ts", ".vue", ".svelte", ".astro"}
 HTML_EXT = {".html", ".htm"}
 TEXT_EXT = {".md", ".txt"}
-SKIP_DIRS = {"node_modules", ".git", "dist", "build", ".next", "__pycache__"}
+SKIP_DIRS = {"node_modules", ".git", "dist", "build", ".next", "__pycache__", "vendor"}
 
 FAIL, WARN = "FAIL", "WARN"
 
@@ -42,7 +42,9 @@ REFLEX_FONTS_WARN = {
     "syne", "bricolage grotesque", "instrument serif", "cormorant garamond",
     "lora", "raleway", "nunito", "work sans", "geist", "jetbrains mono",
     "ibm plex sans", "source sans pro", "source sans 3", "urbanist",
-    "figtree", "onest", "schibsted grotesk",
+    "figtree", "onest", "schibsted grotesk", "newsreader", "crimson",
+    "crimson pro", "crimson text", "ibm plex mono", "ibm plex serif",
+    "space mono", "dm serif display", "dm serif text", "instrument sans",
 }
 SYSTEM_FONTS = {"system-ui", "-apple-system", "blinkmacsystemfont", "ui-sans-serif", "sans-serif", "serif", "monospace"}
 
@@ -218,9 +220,13 @@ class Tree(HTMLParser):
 
 
 def check_file(path):
-    ext = os.path.splitext(path)[1].lower()
     with open(path, encoding="utf-8", errors="replace") as f:
-        raw = f.read()
+        return check_text(path, f.read())
+
+
+def check_text(path, raw):
+    """Lint `raw` as if it lived at `path` (extension picks the rule set)."""
+    ext = os.path.splitext(path)[1].lower()
     F = []
     is_code = ext in CODE_EXT
     is_html = ext in HTML_EXT

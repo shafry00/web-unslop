@@ -18,9 +18,9 @@ Contoh penalaran (bukan daftar pilihan): bengkel jam dengan nota cetak lama menu
 Linter menandai font di bawah ini jika menjadi pilihan pertama di `font-family`.
 
 - **FAIL:** Inter, Roboto, Open Sans, Arial, Helvetica, Space Grotesk, Poppins, Montserrat, Playfair Display, DM Sans, Lato, Segoe UI.
-- **WARN:** Fraunces, Outfit, Plus Jakarta Sans, Manrope, Sora, Lexend, Syne, Bricolage Grotesque, Instrument Serif, Cormorant Garamond, Lora, Raleway, Nunito, Work Sans, Geist, JetBrains Mono, IBM Plex Sans, Source Sans, Urbanist, Figtree, Onest, Schibsted Grotesk.
+- **WARN:** Newsreader, Crimson, DM Serif, IBM Plex Mono dan Serif, Space Mono, Instrument Sans, Fraunces, Outfit, Plus Jakarta Sans, Manrope, Sora, Lexend, Syne, Bricolage Grotesque, Instrument Serif, Cormorant Garamond, Lora, Raleway, Nunito, Work Sans, Geist, JetBrains Mono, IBM Plex Sans, Source Sans, Urbanist, Figtree, Onest, Schibsted Grotesk.
 
-Font di daftar WARN boleh dipakai kalau uji benda fisik memang mengarah ke sana. Tulis alasannya. Merek yang sudah punya font wajib (brand guideline) mengalahkan aturan ini, sebutkan di komentar bukti.
+Font di daftar WARN boleh dipakai kalau uji benda fisik memang mengarah ke sana. Tulis alasannya. Daftar ini menggabungkan daftar tolak Impeccable dengan tambahan dari pengamatan. Merek yang sudah punya font wajib (brand guideline) mengalahkan aturan ini, sebutkan di komentar bukti.
 
 ## Pasangan
 
